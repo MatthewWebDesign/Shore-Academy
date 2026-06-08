@@ -528,7 +528,7 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
     <div class="tutee-card">
       <div class="tutee-img" style="background:linear-gradient(135deg,#1a3a6b 0%,#0d2240 100%)">
         <span style="font-size:72px;z-index:0">👩‍💻</span>
-        <div class="tutee-rank"><span class="tutee-rank-badge" data-en="Top 0.5% Student" data-zh="前0.5%学生">Top 0.5% Student</span></div>
+        <div class="tutee-rank"><span class="tutee-rank-badge" data-en="Top 2% Student" data-zh="前2%学生">Top 2% Student</span></div>
       </div>
       <div class="tutee-body">
         <div class="tutee-name">D'Angelo Maclaren</div>
@@ -547,7 +547,7 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
     <div class="tutee-card">
       <div class="tutee-img" style="background:linear-gradient(135deg,#1e3a2f 0%,#0f2118 100%)">
         <span style="font-size:72px;z-index:0">👨‍🔬</span>
-        <div class="tutee-rank"><span class="tutee-rank-badge" data-en="Top 3% Student" data-zh="前3%学生">Top 3% Student</span></div>
+        <div class="tutee-rank"><span class="tutee-rank-badge" data-en="Top 2% Student" data-zh="前3%学生">Top 2% Student</span></div>
       </div>
       <div class="tutee-body">
         <div class="tutee-name">Mitchell Baird</div>
@@ -565,7 +565,7 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
     <div class="tutee-card">
       <div class="tutee-img" style="background:linear-gradient(135deg,#3a1a1a 0%,#200d0d 100%)">
         <span style="font-size:72px;z-index:0">👨‍📖</span>
-        <div class="tutee-rank"><span class="tutee-rank-badge" data-en="Top 1% Student" data-zh="前1%学生">Top 1% Student</span></div>
+        <div class="tutee-rank"><span class="tutee-rank-badge" data-en="Top 2% Student" data-zh="前2%学生">Top 2% Student</span></div>
       </div>
       <div class="tutee-body">
         <div class="tutee-name">Matthew Fitness</div>
@@ -645,7 +645,7 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
 
 <script>
 // ── CONFIG ──────────────────────────────────────────────────────────────
-const GOOGLE_SHEET_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbwlJCyXaTR607a6KYyfEsJm-ZtQJh_tSflnv09CzIUBNFygqiyhwIlLVFk_csb1DWl4JQ/exec';
 
 // ── TRANSLATIONS for modal UI strings ───────────────────────────────────
 const T = {
@@ -933,7 +933,7 @@ async function submitBooking() {
   };
 
   try {
-    if (GOOGLE_SHEET_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+    if (GOOGLE_SHEET_URL !== 'https://script.google.com/macros/s/AKfycbwlJCyXaTR607a6KYyfEsJm-ZtQJh_tSflnv09CzIUBNFygqiyhwIlLVFk_csb1DWl4JQ/execE') {
       await fetch(GOOGLE_SHEET_URL, {
         method: 'POST', mode: 'no-cors',
         headers: { 'Content-Type': 'application/json' },
