@@ -1,0 +1,867 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Academy NZ</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --navy:#0B1C3D;--navy2:#0F2451;--gold:#C9A84C;--gold2:#E8C96A;
+  --cream:#F9F6EE;--cream2:#F0EBE0;--text:#0B1C3D;--muted:#5A6A8A;
+  --white:#FFFFFF;--border:#DDD9CC;
+}
+html{scroll-behavior:smooth}
+body{font-family:'Outfit',sans-serif;background:var(--cream);color:var(--text);overflow-x:hidden}
+
+/* ─── NAV ─── */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(11,28,61,0.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,0.06);padding:0 40px;display:flex;align-items:center;justify-content:space-between;height:60px}
+.nav-logo{font-family:'DM Serif Display',serif;font-size:20px;color:#fff;letter-spacing:.5px}
+.nav-logo span{color:var(--gold)}
+.nav-links{display:flex;gap:28px;list-style:none}
+.nav-links a{color:rgba(255,255,255,0.55);font-size:13px;text-decoration:none;letter-spacing:.5px;transition:color .2s}
+.nav-links a:hover{color:#fff}
+.nav-cta{background:var(--gold);color:var(--navy);font-family:'Outfit',sans-serif;font-weight:600;font-size:13px;padding:9px 22px;border-radius:8px;border:none;cursor:pointer;text-decoration:none}
+
+/* ─── HERO ─── */
+#hero{background:var(--navy);min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:100px 32px 80px;position:relative;overflow:hidden}
+#hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse 80% 60% at 70% 40%,rgba(201,168,76,0.12) 0%,transparent 70%);pointer-events:none}
+.hero-badge{border:1px solid rgba(201,168,76,0.5);color:var(--gold2);font-size:12px;letter-spacing:2px;text-transform:uppercase;padding:6px 18px;border-radius:40px;margin-bottom:28px}
+.hero-title{font-family:'DM Serif Display',serif;font-size:clamp(40px,6vw,76px);color:#fff;text-align:center;line-height:1.05;max-width:700px;margin-bottom:18px}
+.hero-title em{font-style:italic;color:var(--gold2)}
+.hero-sub{color:rgba(255,255,255,0.55);font-size:17px;max-width:480px;text-align:center;line-height:1.75;margin-bottom:44px}
+.hero-cta{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
+.btn-gold{background:var(--gold);color:var(--navy);font-family:'Outfit',sans-serif;font-weight:600;font-size:14px;padding:14px 30px;border-radius:8px;border:none;cursor:pointer;letter-spacing:.5px;text-decoration:none}
+.btn-ghost{background:transparent;color:#fff;font-family:'Outfit',sans-serif;font-weight:500;font-size:14px;padding:14px 30px;border-radius:8px;border:1px solid rgba(255,255,255,0.3);cursor:pointer;text-decoration:none}
+.hero-floats{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.hf{position:absolute;font-family:'DM Serif Display',serif;color:rgba(201,168,76,0.1);user-select:none}
+.hf:nth-child(1){top:8%;left:4%;font-size:72px}
+.hf:nth-child(2){top:18%;right:6%;font-size:88px}
+.hf:nth-child(3){bottom:20%;left:7%;font-size:60px}
+.hf:nth-child(4){bottom:12%;right:9%;font-size:44px}
+.hf:nth-child(5){top:52%;left:2%;font-size:40px}
+.hf:nth-child(6){top:62%;right:3%;font-size:56px}
+.hf:nth-child(7){top:34%;left:14%;font-size:32px;opacity:.5}
+.hf:nth-child(8){top:44%;right:14%;font-size:28px;opacity:.5}
+
+/* ─── TICKER ─── */
+.ticker-wrap{overflow:hidden;white-space:nowrap;background:var(--navy2);border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06);padding:10px 0}
+.ticker-inner{display:inline-flex;animation:ticker 32s linear infinite}
+@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+.ticker-item{display:inline-block;padding:0 28px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.32)}
+.ticker-dot{color:var(--gold)}
+
+/* ─── STATS ─── */
+#stats{background:var(--gold);display:flex;justify-content:center;flex-wrap:wrap}
+.stat-item{padding:22px 44px;text-align:center;border-right:1px solid rgba(11,28,61,0.15)}
+.stat-item:last-child{border-right:none}
+.stat-num{font-family:'DM Serif Display',serif;font-size:30px;color:var(--navy);line-height:1}
+.stat-label{font-size:11px;font-weight:500;color:rgba(11,28,61,0.6);text-transform:uppercase;letter-spacing:1px;margin-top:4px}
+
+/* ─── SECTIONS ─── */
+.section{padding:80px 32px;max-width:900px;margin:0 auto}
+.section-label{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold);font-weight:600;margin-bottom:12px}
+.section-title{font-family:'DM Serif Display',serif;font-size:clamp(28px,4vw,44px);line-height:1.12;color:var(--navy);margin-bottom:10px}
+.section-sub{color:var(--muted);font-size:15px;max-width:520px;line-height:1.75;margin-bottom:44px}
+
+/* ─── FEATURES ─── */
+#features{background:var(--cream)}
+.feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px}
+.feat-card{background:var(--white);border:1px solid var(--border);border-radius:14px;padding:30px 26px;position:relative;overflow:hidden}
+.feat-card::after{content:'';position:absolute;bottom:0;left:0;right:0;height:3px;background:var(--gold)}
+.feat-icon{width:42px;height:42px;background:rgba(201,168,76,0.1);border-radius:10px;display:flex;align-items:center;justify-content:center;margin-bottom:18px}
+.feat-icon svg{width:20px;height:20px;fill:none;stroke:var(--gold);stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.feat-big{font-family:'DM Serif Display',serif;font-size:34px;color:var(--gold);line-height:1}
+.feat-big-sub{font-size:12px;color:var(--muted);margin-top:2px}
+.feat-name{font-weight:600;font-size:15px;color:var(--navy);margin-bottom:8px}
+.feat-desc{font-size:13px;color:var(--muted);line-height:1.7}
+
+/* ─── PRICING ─── */
+#pricing{background:var(--navy2);padding:80px 32px;scroll-margin-top:60px}
+#pricing .section-title{color:#fff}
+#pricing .section-sub{color:rgba(255,255,255,0.45)}
+#pricing .section-label{color:var(--gold2)}
+.pricing-inner{max-width:900px;margin:0 auto}
+.pricing-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:52px}
+.price-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;padding:28px 20px;text-align:center}
+.price-card.featured{background:var(--gold);border-color:var(--gold)}
+.price-icon{font-size:26px;margin-bottom:14px}
+.price-type{font-size:11px;text-transform:uppercase;letter-spacing:2px;color:rgba(255,255,255,0.45);margin-bottom:14px}
+.price-card.featured .price-type{color:rgba(11,28,61,0.6)}
+.price-amount{font-family:'DM Serif Display',serif;font-size:48px;color:#fff;line-height:1}
+.price-card.featured .price-amount{color:var(--navy)}
+.price-unit{font-size:13px;color:rgba(255,255,255,0.35);margin-top:4px}
+.price-card.featured .price-unit{color:rgba(11,28,61,0.5)}
+.price-desc{font-size:13px;color:rgba(255,255,255,0.55);margin-top:16px;line-height:1.6}
+.price-card.featured .price-desc{color:rgba(11,28,61,0.65)}
+.price-card.sat{background:rgba(201,168,76,0.08);border-color:rgba(201,168,76,0.3)}
+.price-card.sat .price-type{color:var(--gold2)}
+.price-card.sat .price-amount{color:var(--gold2)}
+.price-card.sat .price-unit{color:rgba(201,168,76,0.5)}
+.price-card.sat .price-desc{color:rgba(255,255,255,0.5)}
+
+/* ─── CALENDAR ─── */
+.cal-section-label{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold2);font-weight:600;margin-bottom:6px}
+.cal-section-title{font-family:'DM Serif Display',serif;font-size:22px;color:#fff;margin-bottom:4px}
+.cal-section-sub{font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:20px}
+.cal-wrap{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:14px;overflow:hidden;margin-bottom:12px}
+.cal-header{display:flex;background:rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.08)}
+.cal-time-header{width:54px;flex-shrink:0}
+.cal-day-cols{display:flex;flex:1}
+.cal-day-name{flex:1;text-align:center;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.45);padding:10px 4px}
+.cal-body{display:flex}
+.cal-time-col-wrap{width:54px;flex-shrink:0;display:flex;flex-direction:column}
+.cal-time-label{font-size:9px;color:rgba(255,255,255,0.3);padding:0 8px 0 0;text-align:right;height:26px;display:flex;align-items:center;justify-content:flex-end;border-bottom:1px solid rgba(255,255,255,0.03)}
+.cal-day-grid{flex:1;display:flex}
+.cal-col{flex:1;display:flex;flex-direction:column}
+.cal-slot{height:26px;border-bottom:1px solid rgba(255,255,255,0.03);border-left:1px solid rgba(255,255,255,0.04);transition:background .12s}
+.cal-slot.booked{background:rgba(201,168,76,0.28);cursor:default}
+.cal-slot.free{background:rgba(255,255,255,0.02);cursor:pointer}
+.cal-slot.free:hover{background:rgba(201,168,76,0.15)}
+.cal-slot.pending{background:rgba(100,200,100,0.25)!important;cursor:default}
+.section-divider{display:flex;align-items:center;gap:12px;margin:10px 0 8px}
+.divider-label{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.3);white-space:nowrap}
+.divider-line{flex:1;height:1px;background:rgba(255,255,255,0.08)}
+.leg{display:flex;gap:18px;margin-top:12px;font-size:12px;color:rgba(255,255,255,0.4);align-items:center;flex-wrap:wrap}
+.leg-dot{width:12px;height:12px;border-radius:3px;display:inline-block;margin-right:5px;vertical-align:middle}
+.tab-row{display:flex;gap:10px;margin-bottom:22px}
+.tab-btn{background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:9px 22px;font-size:13px;color:rgba(255,255,255,0.5);cursor:pointer;font-family:'Outfit',sans-serif;transition:all .2s}
+.tab-btn.active{background:var(--gold);color:var(--navy);border-color:var(--gold);font-weight:600}
+
+/* ─── BOOKING MODAL ─── */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.7);z-index:200;align-items:center;justify-content:center;padding:20px}
+.modal-overlay.open{display:flex}
+.modal{background:#0F2451;border:1px solid rgba(255,255,255,0.15);border-radius:18px;padding:36px;max-width:440px;width:100%;position:relative;box-shadow:0 24px 80px rgba(0,0,0,0.5)}
+.modal-close{position:absolute;top:16px;right:18px;background:none;border:none;color:rgba(255,255,255,0.4);font-size:22px;cursor:pointer;line-height:1}
+.modal-close:hover{color:#fff}
+.modal-label{font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold2);font-weight:600;margin-bottom:8px}
+.modal-title{font-family:'DM Serif Display',serif;font-size:22px;color:#fff;margin-bottom:4px}
+.modal-slot{font-size:14px;color:rgba(255,255,255,0.5);margin-bottom:24px}
+.modal input{width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:9px;padding:12px 14px;color:#fff;font-family:'Outfit',sans-serif;font-size:14px;margin-bottom:12px;outline:none;transition:border .2s}
+.modal input:focus{border-color:rgba(201,168,76,0.5)}
+.modal input::placeholder{color:rgba(255,255,255,0.3)}
+.modal select{width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:9px;padding:12px 14px;color:#fff;font-family:'Outfit',sans-serif;font-size:14px;margin-bottom:20px;outline:none;appearance:none;cursor:pointer}
+.modal select option{background:#0F2451;color:#fff}
+.modal-btn{width:100%;background:var(--gold);color:var(--navy);font-family:'Outfit',sans-serif;font-weight:700;font-size:14px;padding:14px;border-radius:9px;border:none;cursor:pointer;letter-spacing:.5px;transition:opacity .2s}
+.modal-btn:hover{opacity:.88}
+.modal-btn:disabled{opacity:.4;cursor:not-allowed}
+.modal-success{display:none;text-align:center;padding:12px 0 4px}
+.modal-success-icon{font-size:48px;margin-bottom:12px}
+.modal-success p{color:rgba(255,255,255,0.6);font-size:14px;line-height:1.7;margin-top:8px}
+
+/* ─── REVIEWS ─── */
+#reviews{background:var(--cream2);padding:80px 0}
+#reviews .section{padding:0 32px;margin-bottom:0}
+.review-track{display:flex;gap:20px;overflow-x:auto;padding:0 32px 18px;scrollbar-width:none;margin-top:0}
+.review-track::-webkit-scrollbar{display:none}
+.review-card{min-width:268px;max-width:280px;background:var(--white);border:1px solid var(--border);border-radius:14px;padding:26px 24px;flex-shrink:0}
+.stars{color:var(--gold);font-size:14px;margin-bottom:14px;letter-spacing:1px}
+.review-text{font-size:13px;color:var(--muted);line-height:1.75;margin-bottom:18px;font-style:italic}
+.reviewer-name{font-weight:600;font-size:13px;color:var(--navy)}
+.reviewer-sub{font-size:11px;color:var(--muted);margin-top:3px}
+
+/* ─── TUTORS ─── */
+#tutors{background:var(--cream);padding:80px 32px;scroll-margin-top:60px}
+.tutors-inner{max-width:900px;margin:0 auto}
+.tutee-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(252px,1fr));gap:28px}
+.tutee-card{background:var(--white);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.tutee-img{height:230px;display:flex;align-items:center;justify-content:center;font-size:80px;position:relative;overflow:hidden}
+.tutee-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 55%,rgba(11,28,61,0.65))}
+.tutee-rank{position:absolute;bottom:0;left:0;right:0;z-index:1;padding:16px 18px}
+.tutee-rank-badge{display:inline-block;background:var(--gold);color:var(--navy);font-size:10px;font-weight:700;letter-spacing:1px;padding:4px 12px;border-radius:20px;text-transform:uppercase}
+.tutee-body{padding:24px}
+.tutee-name{font-weight:700;font-size:16px;color:var(--navy);margin-bottom:4px}
+.tutee-school{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:14px}
+.tutee-subjects{font-size:13px;color:var(--muted);line-height:1.65;margin-bottom:18px}
+.tutee-honours{border-top:1px solid #EEEBE4;padding-top:18px}
+.honour-title{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;color:var(--gold);margin-bottom:10px}
+.honour-item{font-size:12px;color:var(--muted);padding:5px 0;border-bottom:1px solid #F5F2EC;line-height:1.5}
+.honour-item:last-child{border-bottom:none}
+
+/* ─── LOCATIONS ─── */
+#locations{background:var(--navy2);padding:80px 32px;scroll-margin-top:60px}
+#locations .section-title{color:#fff}
+#locations .section-sub{color:rgba(255,255,255,0.45)}
+#locations .section-label{color:var(--gold2)}
+.locations-inner{max-width:900px;margin:0 auto}
+.loc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px}
+.loc-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;overflow:hidden}
+.loc-map{height:155px;background:#1a2f5e;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.loc-map svg{width:100%;height:100%}
+.loc-info{padding:20px}
+.loc-name{font-weight:700;font-size:15px;color:#fff;margin-bottom:4px}
+.loc-addr{font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:14px;line-height:1.55}
+.loc-tag{display:inline-block;border:1px solid rgba(201,168,76,0.4);color:var(--gold2);font-size:11px;padding:4px 14px;border-radius:20px}
+.home-card{background:rgba(201,168,76,0.07);border:1px solid rgba(201,168,76,0.28);border-radius:14px;padding:32px;display:flex;gap:26px;align-items:flex-start;margin-top:24px;flex-wrap:wrap}
+.home-icon{font-size:44px;flex-shrink:0}
+.home-info h3{font-size:19px;font-weight:700;color:var(--gold2);margin-bottom:10px}
+.home-info p{font-size:14px;color:rgba(255,255,255,0.5);line-height:1.75}
+
+/* ─── FOOTER ─── */
+footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.footer-logo{font-family:'DM Serif Display',serif;font-size:18px;color:#fff}
+.footer-logo span{color:var(--gold)}
+.footer-links{display:flex;gap:24px;list-style:none}
+.footer-links a{color:rgba(255,255,255,0.3);font-size:12px;text-decoration:none;letter-spacing:.5px}
+.footer-copy{color:rgba(255,255,255,0.2);font-size:12px;margin-top:8px}
+
+/* ─── MAP SVG ─── */
+.map-road-h{fill:rgba(255,255,255,0.08)}
+.map-road-v{fill:rgba(255,255,255,0.08)}
+.map-block{fill:rgba(255,255,255,0.04)}
+.map-pin-ring{fill:rgba(201,168,76,0.28);stroke:#C9A84C;stroke-width:1.5}
+.map-pin{fill:#C9A84C}
+.map-label{fill:rgba(255,255,255,0.3);font-size:9px;font-family:'Outfit',sans-serif}
+
+#features,#pricing,#tutors,#locations{scroll-margin-top:60px}
+</style>
+</head>
+<body>
+
+<!-- ─── BOOKING MODAL ─── -->
+<div class="modal-overlay" id="bookingModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">✕</button>
+    <div id="modalForm">
+      <div class="modal-label" data-en="Reserve a Slot" data-zh="预约时段">Reserve a Slot</div>
+      <div class="modal-title" data-en="Book this session" data-zh="预约本次课程">Book this session</div>
+      <div class="modal-slot" id="modalSlotLabel"></div>
+      <input type="text" id="bookName" placeholder="Full name / 全名" autocomplete="name">
+      <input type="email" id="bookEmail" placeholder="Email address / 电子邮件" autocomplete="email">
+      <input type="tel" id="bookPhone" placeholder="Phone number / 电话号码" autocomplete="tel">
+      <select id="bookSubject">
+        <option value="">Select subject / 选择科目</option>
+        <option>Mathematics</option>
+        <option>Calculus</option>
+        <option>Statistics</option>
+        <option>Physics</option>
+        <option>Chemistry</option>
+        <option>Biology</option>
+        <option>English</option>
+        <option>Economics</option>
+        <option>SAT Prep</option>
+        <option>Other</option>
+      </select>
+      <select id="bookFormat">
+        <option value="">Session format / 课程形式</option>
+        <option>Online ($40/hr)</option>
+        <option>Library – Massey ($50/hr)</option>
+        <option>Library – Orewa ($50/hr)</option>
+        <option>Library – East Coast Bays ($50/hr)</option>
+        <option>At Home ($60/hr)</option>
+        <option>SAT – In Person ($90/hr)</option>
+      </select>
+      <button class="modal-btn" id="modalSubmitBtn" onclick="submitBooking()">Confirm Booking / 确认预约</button>
+      <p id="modalError" style="color:#ff6b6b;font-size:12px;margin-top:10px;display:none">Please fill in all fields. / 请填写所有字段。</p>
+    </div>
+    <div class="modal-success" id="modalSuccess">
+      <div class="modal-success-icon">✅</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:20px;color:#fff;margin-bottom:8px" data-en="Booking received!" data-zh="预约已收到！">Booking received!</div>
+      <p data-en="We'll confirm your session within 2 hours via email. Check your spam folder if you don't hear from us." data-zh="我们将在2小时内通过电子邮件确认您的课程。如未收到，请检查垃圾邮件文件夹。">We'll confirm your session within 2 hours via email. Check your spam folder if you don't hear from us.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <div class="nav-logo">Academy - <span id="lang-toggle" onclick="toggleLang()" title="切换中文 / Switch to Chinese" style="cursor:pointer;border-bottom:1px dashed rgba(201,168,76,0.5);transition:opacity .2s" onmouseenter="this.style.opacity='.7'" onmouseleave="this.style.opacity='1'">卓越学苑</span></div>
+  <ul class="nav-links">
+    <li><a href="#features" data-en="Method" data-zh="教学理念">Method</a></li>
+    <li><a href="#pricing" data-en="Pricing" data-zh="价格">Pricing</a></li>
+    <li><a href="#tutors" data-en="Tutors" data-zh="导师">Tutors</a></li>
+    <li><a href="#locations" data-en="Locations" data-zh="地点">Locations</a></li>
+  </ul>
+  <a class="nav-cta" href="#pricing" data-en="Book Now" data-zh="立即预约">Book Now</a>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section id="hero">
+  <div class="hero-floats">
+    <span class="hf">∑</span><span class="hf">∫</span><span class="hf">π</span>
+    <span class="hf">√</span><span class="hf">≡</span><span class="hf">∂</span>
+    <span class="hf">λ</span><span class="hf">∞</span>
+  </div>
+  <div class="hero-badge" data-en="North Shore · Est. 2026" data-zh="北岸区 · 创立于2026年">North Shore · Est. 2026</div>
+  <h1 class="hero-title" data-en="Mastery Before <em>Marks.</em>" data-zh="真正掌握，<em>成绩自来。</em>">Mastery Before <em>Marks.</em></h1>
+  <p class="hero-sub" data-en='Premium one-on-one academic tutoring tailored to students who demand genuine excellence and <strong style="color:rgba(255,255,255,0.85)">deep understanding</strong>.' data-zh='专为追求卓越的学生量身定制的<strong style="color:rgba(255,255,255,0.85)">一对一精英学术辅导</strong>，注重真正的深度理解。'>Premium one-on-one academic tutoring tailored to students who demand genuine excellence and <strong style="color:rgba(255,255,255,0.85)">deep understanding</strong>.</p>
+  <div class="hero-cta">
+    <a class="btn-gold" href="#pricing" data-en="Book a Session" data-zh="预约课程">Book a Session</a>
+    <a class="btn-ghost" href="#tutors" data-en="Meet Our Tutors" data-zh="认识我们的导师">Meet Our Tutors</a>
+  </div>
+</section>
+
+<!-- ─── TICKER ─── -->
+<div class="ticker-wrap">
+  <div class="ticker-inner">
+    <span class="ticker-item" data-en="Mathematics" data-zh="数学">Mathematics<span class="ticker-dot"> · </span></span>
+    <span class="ticker-item" data-en="Statistics" data-zh="统计学">Statistics<span class="ticker-dot"> · </span></span>
+    <span class="ticker-item" data-en="Chemistry" data-zh="化学">Chemistry<span class="ticker-dot"> · </span></span>
+    <span class="ticker-item" data-en="Physics" data-zh="物理">Physics<span class="ticker-dot"> · </span></span>
+    <span class="ticker-item" data-en="English" data-zh="英语">English<span class="ticker-dot"> · </span></span>
+    <span class="ticker-item" data-en="Year 7–11" data-zh="7至11年级">Year 7–11<span class="ticker-dot"> · </span></span>
+    <span class="ticker-item" data-en="SAT Prep" data-zh="SAT备考">SAT Prep<span class="ticker-dot"> · </span></span>
+    <span class="ticker-item" data-en="Economics" data-zh="经济学">Economics<span class="ticker-dot"> · </span></span>
+    <span class="ticker-item" data-en="Biology" data-zh="生物">Biology<span class="ticker-dot"> · </span></span>
+    <span class="ticker-item" data-en="NCEA Levels 1–3" data-zh="NCEA一至三级">NCEA Levels 1–3<span class="ticker-dot"> · </span></span>
+    <span class="ticker-item" data-en="Mathematics" data-zh="数学">Mathematics<span class="ticker-dot"> · </span></span>
+    <span class="ticker-item" data-en="Statistics" data-zh="统计学">Statistics<span class="ticker-dot"> · </span></span>
+    <span class="ticker-item" data-en="Chemistry" data-zh="化学">Chemistry<span class="ticker-dot"> · </span></span>
+    <span class="ticker-item" data-en="Physics" data-zh="物理">Physics<span class="ticker-dot"> · </span></span>
+    <span class="ticker-item" data-en="English" data-zh="英语">English<span class="ticker-dot"> · </span></span>
+    <span class="ticker-item" data-en="Year 7–11" data-zh="7至11年级">Year 7–11<span class="ticker-dot"> · </span></span>
+    <span class="ticker-item" data-en="SAT Prep" data-zh="SAT备考">SAT Prep<span class="ticker-dot"> · </span></span>
+    <span class="ticker-item" data-en="Economics" data-zh="经济学">Economics<span class="ticker-dot"> · </span></span>
+    <span class="ticker-item" data-en="Biology" data-zh="生物">Biology<span class="ticker-dot"> · </span></span>
+    <span class="ticker-item" data-en="NCEA Levels 1–3" data-zh="NCEA一至三级">NCEA Levels 1–3<span class="ticker-dot"> · </span></span>
+  </div>
+</div>
+
+<!-- ─── STATS ─── -->
+<div id="stats">
+  <div class="stat-item"><div class="stat-num">41</div><div class="stat-label" data-en="Active Tutees" data-zh="在读学生">Active Tutees</div></div>
+  <div class="stat-item"><div class="stat-num">4am–10pm</div><div class="stat-label" data-en="Available Daily" data-zh="每日可预约">Available Daily</div></div>
+  <div class="stat-item"><div class="stat-num">3</div><div class="stat-label" data-en="Tutoring Venues" data-zh="辅导地点">Tutoring Venues</div></div>
+  <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label" data-en="Concept-First Method" data-zh="概念优先教学法">Concept-First Method</div></div>
+</div>
+
+<!-- ─── FEATURES ─── -->
+<section id="features">
+<div class="section">
+  <div class="section-label" data-en="What Sets Us Apart" data-zh="我们的独特之处">What Sets Us Apart</div>
+  <h2 class="section-title" data-en="Built on <em style='font-style:italic'>fundamentals,</em><br>not formulas." data-zh="以<em style='font-style:italic'>基础概念</em><br>为本，而非死记硬背。">Built on <em style="font-style:italic">fundamentals,</em><br>not formulas.</h2>
+  <p class="section-sub" data-en="Every session is structured around genuine understanding. We don't teach for a test — we seek deep understanding." data-zh="每节课都以真正的理解为核心。我们不是为了应付考试而教学，而是追求深度的知识掌握。">Every session is structured around genuine understanding. We don't teach for a test — we seek deep understanding.</p>
+  <div class="feat-grid">
+    <div class="feat-card">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+      <div class="feat-big">41</div><div class="feat-big-sub" data-en="tutees &amp; growing" data-zh="学生且持续增长">tutees &amp; growing</div>
+      <div class="feat-name" style="margin-top:14px" data-en="Trusted Widely" data-zh="广受信赖">Trusted Widely</div>
+      <div class="feat-desc" data-en="A growing community of families across the North Shore who've seen real results." data-zh="北岸地区越来越多的家庭选择我们，并看到了切实的成果。">A growing community of families across the North Shore who've seen real results.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+      <div class="feat-big">18h</div><div class="feat-big-sub" data-en="daily availability" data-zh="每日可预约时段">daily availability</div>
+      <div class="feat-name" style="margin-top:14px" data-en="4am to 10pm" data-zh="凌晨4时至晚上10时">4am to 10pm</div>
+      <div class="feat-desc" data-en="Flexible enough for early risers and students finishing school late." data-zh="灵活的时间安排，适合早起学生和放学较晚的学生。">Flexible enough for early risers and students finishing school late.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
+      <div class="feat-name" data-en="Concept-First Method" data-zh="概念优先教学法">Concept-First Method</div>
+      <div class="feat-desc" data-en="We trace every technique back to its origin. Students who understand why never forget how." data-zh="我们追溯每一种方法的根源。理解了"为什么"的学生，永远不会忘记"如何做"。">We trace every technique back to its origin. Students who understand why never forget how.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+      <div class="feat-name" data-en="Ongoing Communication" data-zh="持续沟通反馈">Ongoing Communication</div>
+      <div class="feat-desc" data-en="Parents receive session summaries and progress notes after every lesson." data-zh="家长在每节课后都会收到课程总结和进度说明。">Parents receive session summaries and progress notes after every lesson.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
+      <div class="feat-name" data-en="Small Cohorts Only" data-zh="小班制教学">Small Cohorts Only</div>
+      <div class="feat-desc" data-en="We cap group sessions at 3. Every student gets real attention every time." data-zh="小组课程最多3人。每位学生每次都能得到真正的关注。">We cap group sessions at 3. Every student gets real attention every time.</div>
+    </div>
+    <div class="feat-card">
+      <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
+      <div class="feat-name" data-en="Years 7–11 Specialists" data-zh="7至11年级专家">Years 7–11 Specialists</div>
+      <div class="feat-desc" data-en="We focus on the critical intermediate and junior secondary years where strong foundations are built." data-zh="我们专注于关键的中学初级阶段（7至11年级），在此阶段建立坚实的知识基础。">We focus on the critical intermediate and junior secondary years where strong foundations are built.</div>
+    </div>
+  </div>
+</div>
+</section>
+
+<!-- ─── PRICING + CALENDAR ─── -->
+<section id="pricing">
+<div class="pricing-inner" style="padding:80px 0">
+
+  <div style="padding:0 32px">
+    <div class="section-label" style="color:var(--gold2)" data-en="Investment" data-zh="收费方案">Investment</div>
+    <h2 class="section-title" style="color:#fff" data-en="Simple, transparent pricing." data-zh="简单透明的收费标准。">Simple, transparent pricing.</h2>
+    <p class="section-sub" style="color:rgba(255,255,255,0.45)" data-en="Choose the format that suits you. All sessions are 60 minutes unless arranged otherwise." data-zh="选择最适合您的方式。所有课程均为60分钟，如有特殊安排可协商。">Choose the format that suits you. All sessions are 60 minutes unless arranged otherwise.</p>
+  </div>
+
+  <div class="pricing-grid" style="padding:0 32px">
+    <div class="price-card">
+      <div class="price-icon">💻</div>
+      <div class="price-type" data-en="Online" data-zh="线上课程">Online</div>
+      <div class="price-amount">$40</div>
+      <div class="price-unit" data-en="per hour" data-zh="每小时">per hour</div>
+      <div class="price-desc" data-en="Via Zoom or Google Meet. Shared whiteboard included." data-zh="通过Zoom或Google Meet上课，含共享白板。">Via Zoom or Google Meet. Shared whiteboard included.</div>
+    </div>
+    <div class="price-card featured">
+      <div class="price-icon">🏠</div>
+      <div class="price-type" data-en="At Your Home" data-zh="上门辅导">At Your Home</div>
+      <div class="price-amount">$60</div>
+      <div class="price-unit" data-en="per hour" data-zh="每小时">per hour</div>
+      <div class="price-desc" data-en="We come to you. Comfort of your own environment." data-zh="我们上门服务，让您在舒适的家中学习。">We come to you. Comfort of your own environment.</div>
+    </div>
+    <div class="price-card">
+      <div class="price-icon">📚</div>
+      <div class="price-type" data-en="At Library" data-zh="图书馆授课">At Library</div>
+      <div class="price-amount">$50</div>
+      <div class="price-unit" data-en="per hour" data-zh="每小时">per hour</div>
+      <div class="price-desc" data-en="Massey, Orewa, or East Coast Bays Library. In person." data-zh="梅西、奥雷瓦或东海岸湾图书馆，面对面授课。">Massey, Orewa, or East Coast Bays Library. In person.</div>
+    </div>
+    <div class="price-card sat">
+      <div class="price-icon">🎯</div>
+      <div class="price-type" data-en="SAT Prep" data-zh="SAT备考">SAT Prep</div>
+      <div class="price-amount">$90</div>
+      <div class="price-unit" data-en="per hour · in person" data-zh="每小时 · 面对面">per hour · in person</div>
+      <div class="price-desc" data-en="Intensive SAT coaching covering Maths and Reading. Proven strategies for high scorers." data-zh="涵盖数学与阅读的密集SAT辅导，专注高分策略。">Intensive SAT coaching covering Maths and Reading. Proven strategies for high scorers.</div>
+    </div>
+  </div>
+
+  <!-- CALENDAR -->
+  <div style="padding:0 32px;margin-top:48px">
+    <div class="cal-section-label" data-en="Availability — This Week" data-zh="本周预约情况">Availability — This Week</div>
+    <h3 class="cal-section-title" data-en="Book a Session" data-zh="预约课程">Book a Session</h3>
+    <p class="cal-section-sub" data-en="Click an available slot to reserve it." data-zh="点击空闲时段进行预约。">Click an available slot to reserve it.</p>
+
+    <div class="tab-row">
+      <button class="tab-btn active" onclick="showTab('weekday',this)" data-en="Weekdays" data-zh="工作日">Weekdays</button>
+      <button class="tab-btn" onclick="showTab('weekend',this)" data-en="Weekend" data-zh="周末">Weekend</button>
+    </div>
+
+    <div id="tab-weekday">
+      <div class="section-divider"><span class="divider-label"><span data-en="🌅 Early Morning · 4am – 7am" data-zh="🌅 清晨时段 · 凌晨4时–7时">🌅 Early Morning · 4am – 7am</span></span><div class="divider-line"></div></div>
+      <div class="cal-wrap" id="calMorning"></div>
+      <div class="section-divider" style="margin-top:20px"><span class="divider-label"><span data-en="☀️ Afternoon &amp; Evening · 4pm – 10pm" data-zh="☀️ 下午及晚间 · 下午4时–晚上10时">☀️ Afternoon &amp; Evening · 4pm – 10pm</span></span><div class="divider-line"></div></div>
+      <div class="cal-wrap" id="calAfternoon"></div>
+      <div class="leg">
+        <span><span class="leg-dot" style="background:rgba(201,168,76,0.38)"></span><span data-en="Booked" data-zh="已预约">Booked</span></span>
+        <span><span class="leg-dot" style="background:rgba(255,255,255,0.06)"></span><span data-en="Available" data-zh="可预约">Available</span></span>
+        <span><span class="leg-dot" style="background:rgba(100,200,100,0.35)"></span><span data-en="Pending" data-zh="待确认">Pending</span></span>
+      </div>
+    </div>
+
+    <div id="tab-weekend" style="display:none">
+      <div class="section-divider"><span class="divider-label"><span data-en="Weekend · 4am – 10pm" data-zh="周末 · 凌晨4时–晚上10时">Weekend · 4am – 10pm</span></span><div class="divider-line"></div></div>
+      <div class="cal-wrap" id="calWeekend"></div>
+      <div class="leg">
+        <span><span class="leg-dot" style="background:rgba(201,168,76,0.38)"></span><span data-en="Booked" data-zh="已预约">Booked</span></span>
+        <span><span class="leg-dot" style="background:rgba(255,255,255,0.06)"></span><span data-en="Available" data-zh="可预约">Available</span></span>
+        <span><span class="leg-dot" style="background:rgba(100,200,100,0.35)"></span><span data-en="Pending" data-zh="待确认">Pending</span></span>
+      </div>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- ─── REVIEWS ─── -->
+<section id="reviews">
+  <div class="section" style="padding-bottom:28px">
+    <div class="section-label" data-en="Testimonials" data-zh="家长与学生评价">Testimonials</div>
+    <h2 class="section-title" data-en="What families say." data-zh="家长与学生怎么说。">What families say.</h2>
+  </div>
+  <div class="review-track">
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <div class="review-text" data-en='"My daughter went from Merit to Excellence in Mathematics within one term. The patience and method are exceptional."' data-zh='"我女儿在一个学期内从良好进步到了数学优秀。导师的耐心和教学方法都非常出色。"'>"My daughter went from Merit to Excellence in Mathematics within one term. The patience and method are exceptional."</div>
+      <div class="reviewer-name">Jennifer L.</div><div class="reviewer-sub" data-en="Parent · Northcross" data-zh="家长 · Northcross">Parent · Northcross</div>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <div class="review-text" data-en='"Finally, a tutor who doesn't just give the answers. My son actually understands calculus now — something school never achieved."' data-zh='"终于找到了一位不只是给答案的导师。我儿子现在真正理解了微积分——这是学校从未做到的。"'>"Finally, a tutor who doesn't just give the answers. My son actually understands calculus now — something school never achieved."</div>
+      <div class="reviewer-name">David K.</div><div class="reviewer-sub" data-en="Parent · Torbay" data-zh="家长 · Torbay">Parent · Torbay</div>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <div class="review-text" data-en='"Incredible depth of knowledge. My son went from struggling in Year 9 Maths to being near the top of his class."' data-zh='"知识深度令人叹服。我儿子从9年级数学困难，进步到接近班级前列。"'>"Incredible depth of knowledge. My son went from struggling in Year 9 Maths to being near the top of his class."</div>
+      <div class="reviewer-name">Min-Ji P.</div><div class="reviewer-sub" data-en="Parent · Long Bay" data-zh="家长 · Long Bay">Parent · Long Bay</div>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★☆</div>
+      <div class="review-text" data-en='"Incredibly flexible scheduling — early morning slots have been a lifesaver for us. Genuine care for each student."' data-zh='"时间安排非常灵活——清晨时段对我们来说非常实用。导师真心关心每位学生。"'>"Incredibly flexible scheduling — early morning slots have been a lifesaver for us. Genuine care for each student."</div>
+      <div class="reviewer-name">Sarah T.</div><div class="reviewer-sub" data-en="Parent · Browns Bay" data-zh="家长 · Browns Bay">Parent · Browns Bay</div>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <div class="review-text" data-en='"The concept-first approach made me realise how shallow my understanding was. Now I can solve problems I've never seen before."' data-zh='"概念优先的教学方式让我意识到自己之前理解有多浅薄。现在我能解决从未见过的题目了。"'>"The concept-first approach made me realise how shallow my understanding was. Now I can solve problems I've never seen before."</div>
+      <div class="reviewer-name">James C.</div><div class="reviewer-sub" data-en="Student · Rangitoto College" data-zh="学生 · Rangitoto College">Student · Rangitoto College</div>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <div class="review-text" data-en='"Worth every dollar. My twins both improved significantly. The library sessions are well organised and productive."' data-zh='"物超所值。我的双胞胎都有了显著进步。图书馆课程组织有序、效率很高。"'>"Worth every dollar. My twins both improved significantly. The library sessions are well organised and productive."</div>
+      <div class="reviewer-name">Mei W.</div><div class="reviewer-sub" data-en="Parent · Mairangi Bay" data-zh="家长 · Mairangi Bay">Parent · Mairangi Bay</div>
+    </div>
+    <div class="review-card">
+      <div class="stars">★★★★★</div>
+      <div class="review-text" data-en='"Our son went from struggling in Year 10 to being one of the top students in his year. The turnaround was remarkable."' data-zh='"我们的儿子从10年级的困难生成长为年级优秀学生。这种进步令人印象深刻。"'>"Our son went from struggling in Year 10 to being one of the top students in his year. The turnaround was remarkable."</div>
+      <div class="reviewer-name">Robert S.</div><div class="reviewer-sub" data-en="Parent · Ōrewa" data-zh="家长 · Ōrewa">Parent · Ōrewa</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── TUTORS ─── -->
+<section id="tutors">
+<div class="tutors-inner" style="padding:80px 0">
+  <div style="padding:0 32px;margin-bottom:40px">
+    <div class="section-label" data-en="Our Tutors" data-zh="我们的导师">Our Tutors</div>
+    <h2 class="section-title" data-en="The people behind our results." data-zh="成绩背后的导师团队。">The people behind our results.</h2>
+    <p class="section-sub" data-en="Our tutors are top-performing students and graduates who know exactly what it takes to reach the top of a cohort." data-zh="我们的导师均为顶尖学生和毕业生，深知如何帮助学生跻身年级前列。">Our tutors are top-performing students and graduates who know exactly what it takes to reach the top of a cohort.</p>
+  </div>
+  <div class="tutee-grid" style="padding:0 32px">
+
+    <div class="tutee-card">
+      <div class="tutee-img" style="background:linear-gradient(135deg,#1a3a6b 0%,#0d2240 100%)">
+        <span style="font-size:72px;z-index:0">👩‍💻</span>
+        <div class="tutee-rank"><span class="tutee-rank-badge" data-en="Top 0.5% Student" data-zh="前0.5%学生">Top 0.5% Student</span></div>
+      </div>
+      <div class="tutee-body">
+        <div class="tutee-name">D'Angelo Maclaren</div>
+        <div class="tutee-school" data-en="at Long Bay College" data-zh="就读于Long Bay College">at Long Bay College</div>
+        <div class="tutee-subjects" data-en="Specialises in <strong>Calculus</strong>, <strong>English</strong>, and <strong>Chemistry</strong>" data-zh="专攻<strong>微积分</strong>、<strong>英语</strong>和<strong>化学</strong>">Specialises in <strong>Calculus</strong>, <strong>English</strong>, and <strong>Chemistry</strong></div>
+        <div class="tutee-honours">
+          <div class="honour-title" data-en="Honours &amp; Achievements" data-zh="荣誉与成就">Honours &amp; Achievements</div>
+          <div class="honour-item" data-en="First in Year 12 Cohort @ LBC" data-zh="Long Bay College 12年级第一名">First in Year 12 Cohort @ LBC</div>
+          <div class="honour-item" data-en="Auckland University Young Scholar" data-zh="奥克兰大学青年学者">Auckland University Young Scholar</div>
+          <div class="honour-item" data-en="Excellence Endorsed — All Subjects" data-zh="所有科目优秀认证">Excellence Endorsed — All Subjects</div>
+          <div class="honour-item" data-en="Duke of Edinburgh Bronze &amp; Silver" data-zh="爱丁堡公爵铜奖及银奖">Duke of Edinburgh Bronze &amp; Silver</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tutee-card">
+      <div class="tutee-img" style="background:linear-gradient(135deg,#1e3a2f 0%,#0f2118 100%)">
+        <span style="font-size:72px;z-index:0">👨‍🔬</span>
+        <div class="tutee-rank"><span class="tutee-rank-badge" data-en="Top 3% Student" data-zh="前3%学生">Top 3% Student</span></div>
+      </div>
+      <div class="tutee-body">
+        <div class="tutee-name">Mitchell Baird</div>
+        <div class="tutee-school" data-en="at Long Bay College" data-zh="就读于Long Bay College">at Long Bay College</div>
+        <div class="tutee-subjects" data-en="Specialises in <strong>DTS</strong>, <strong>Physics</strong>, and <strong>Mathematics</strong>" data-zh="专攻<strong>数字技术</strong>、<strong>物理</strong>和<strong>数学</strong>">Specialises in <strong>DTS</strong>, <strong>Physics</strong>, and <strong>Mathematics</strong></div>
+        <div class="tutee-honours">
+          <div class="honour-title" data-en="Honours &amp; Achievements" data-zh="荣誉与成就">Honours &amp; Achievements</div>
+          <div class="honour-item" data-en="Extension Maths &amp; English" data-zh="数学及英语拓展课程">Extension Maths &amp; English</div>
+          <div class="honour-item" data-en="NCEA Excellence Endorsed — All Subjects" data-zh="NCEA所有科目优秀认证">NCEA Excellence Endorsed — All Subjects</div>
+          <div class="honour-item" data-en="Previous Intermediate Teaching Experience" data-zh="具有中学初级阶段教学经验">Previous Intermediate Teaching Experience</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tutee-card">
+      <div class="tutee-img" style="background:linear-gradient(135deg,#3a1a1a 0%,#200d0d 100%)">
+        <span style="font-size:72px;z-index:0">👨‍📖</span>
+        <div class="tutee-rank"><span class="tutee-rank-badge" data-en="Top 1% Student" data-zh="前1%学生">Top 1% Student</span></div>
+      </div>
+      <div class="tutee-body">
+        <div class="tutee-name">Matthew Fitness</div>
+        <div class="tutee-school" data-en="at Long Bay College" data-zh="就读于Long Bay College">at Long Bay College</div>
+        <div class="tutee-subjects" data-en="Specialises in <strong>Maths</strong>, <strong>Physics</strong>, and <strong>Economics</strong>" data-zh="专攻<strong>数学</strong>、<strong>物理</strong>和<strong>经济学</strong>">Specialises in <strong>Maths</strong>, <strong>Physics</strong>, and <strong>Economics</strong></div>
+        <div class="tutee-honours">
+          <div class="honour-title" data-en="Honours &amp; Achievements" data-zh="荣誉与成就">Honours &amp; Achievements</div>
+          <div class="honour-item" data-en="Former Head Boy @ Northcross Intermediate" data-zh="前Northcross Intermediate学生会长">Former Head Boy @ Northcross Intermediate</div>
+          <div class="honour-item" data-en="Principal's Award Recipient 2024" data-zh="2024年校长奖得主">Principal's Award Recipient 2024</div>
+          <div class="honour-item" data-en="Extension Maths &amp; Physics" data-zh="数学及物理拓展课程">Extension Maths &amp; Physics</div>
+          <div class="honour-item" data-en="Auckland University Young Scholar" data-zh="奥克兰大学青年学者">Auckland University Young Scholar</div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+</section>
+
+<!-- ─── LOCATIONS ─── -->
+<section id="locations">
+<div class="locations-inner" style="padding:80px 0">
+
+  <div style="padding:0 32px;margin-bottom:40px">
+    <div class="section-label" data-en="Meeting Locations" data-zh="授课地点">Meeting Locations</div>
+    <h2 class="section-title" style="color:#fff" data-en="Where we meet." data-zh="我们在哪里上课。">Where we meet.</h2>
+    <p class="section-sub" style="color:rgba(255,255,255,0.45)" data-en="Three library venues across the North Shore, all easily accessible. Or we come to you." data-zh="北岸三处图书馆授课地点，交通便利。或由我们上门服务。">Three library venues across the North Shore, all easily accessible. Or we come to you.</p>
+  </div>
+
+  <div class="loc-grid" style="padding:0 32px">
+    <div class="loc-card">
+      <div class="loc-map">
+        <svg viewBox="0 0 220 155" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="155" fill="#1a2f5e"/>
+          <rect x="0" y="67" width="220" height="8" class="map-road-h"/>
+          <rect x="94" y="0" width="8" height="155" class="map-road-v"/>
+          <rect x="10" y="10" width="70" height="50" class="map-block" rx="2"/>
+          <rect x="110" y="10" width="55" height="50" class="map-block" rx="2"/>
+          <rect x="172" y="10" width="38" height="50" class="map-block" rx="2"/>
+          <rect x="10" y="83" width="50" height="62" class="map-block" rx="2"/>
+          <rect x="110" y="83" width="100" height="62" class="map-block" rx="2"/>
+          <line x1="0" y1="30" x2="220" y2="30" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <line x1="0" y1="110" x2="220" y2="110" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <line x1="50" y1="0" x2="50" y2="155" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <line x1="160" y1="0" x2="160" y2="155" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <circle cx="98" cy="71" r="12" class="map-pin-ring"/>
+          <circle cx="98" cy="71" r="4.5" class="map-pin"/>
+          <text x="110" y="143" text-anchor="middle" class="map-label">Massey University Area</text>
+        </svg>
+      </div>
+      <div class="loc-info">
+        <div class="loc-name" data-en="Massey Library" data-zh="梅西图书馆">Massey Library</div>
+        <div class="loc-addr">Silverfield, Albany, Auckland 0632</div>
+        <span class="loc-tag" data-en="$50/hr · In Person" data-zh="每小时$50 · 面授">$50/hr · In Person</span>
+      </div>
+    </div>
+
+    <div class="loc-card">
+      <div class="loc-map">
+        <svg viewBox="0 0 220 155" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="155" fill="#1a2f5e"/>
+          <path d="M0 80 Q55 62 110 76 Q165 90 220 72" stroke="rgba(100,180,255,0.18)" stroke-width="4" fill="none"/>
+          <rect x="0" y="54" width="220" height="8" class="map-road-h"/>
+          <rect x="70" y="0" width="8" height="155" class="map-road-v"/>
+          <rect x="10" y="10" width="50" height="37" class="map-block" rx="2"/>
+          <rect x="85" y="10" width="78" height="37" class="map-block" rx="2"/>
+          <rect x="170" y="10" width="40" height="37" class="map-block" rx="2"/>
+          <rect x="10" y="70" width="50" height="75" class="map-block" rx="2"/>
+          <rect x="85" y="70" width="125" height="75" class="map-block" rx="2"/>
+          <line x1="0" y1="30" x2="220" y2="30" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <line x1="140" y1="0" x2="140" y2="155" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <circle cx="74" cy="58" r="12" class="map-pin-ring"/>
+          <circle cx="74" cy="58" r="4.5" class="map-pin"/>
+          <text x="110" y="143" text-anchor="middle" class="map-label">Orewa Town Centre</text>
+        </svg>
+      </div>
+      <div class="loc-info">
+        <div class="loc-name" data-en="Orewa Library" data-zh="奥雷瓦图书馆">Orewa Library</div>
+        <div class="loc-addr">1 Centreway Rd, Orewa, Auckland 0931</div>
+        <span class="loc-tag" data-en="$50/hr · In Person" data-zh="每小时$50 · 面授">$50/hr · In Person</span>
+      </div>
+    </div>
+
+    <div class="loc-card">
+      <div class="loc-map">
+        <svg viewBox="0 0 220 155" xmlns="http://www.w3.org/2000/svg">
+          <rect width="220" height="155" fill="#1a2f5e"/>
+          <rect x="0" y="70" width="220" height="8" class="map-road-h"/>
+          <rect x="0" y="44" width="220" height="5" style="fill:rgba(255,255,255,0.05)"/>
+          <rect x="104" y="0" width="8" height="155" class="map-road-v"/>
+          <rect x="48" y="0" width="5" height="155" style="fill:rgba(255,255,255,0.05)"/>
+          <rect x="10" y="10" width="30" height="27" class="map-block" rx="2"/>
+          <rect x="55" y="10" width="40" height="27" class="map-block" rx="2"/>
+          <rect x="118" y="10" width="82" height="27" class="map-block" rx="2"/>
+          <rect x="10" y="83" width="82" height="62" class="map-block" rx="2"/>
+          <rect x="118" y="83" width="82" height="62" class="map-block" rx="2"/>
+          <line x1="0" y1="30" x2="220" y2="30" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <line x1="0" y1="115" x2="220" y2="115" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>
+          <circle cx="112" cy="57" r="12" class="map-pin-ring"/>
+          <circle cx="112" cy="57" r="4.5" class="map-pin"/>
+          <text x="110" y="143" text-anchor="middle" class="map-label">East Coast Bays Area</text>
+        </svg>
+      </div>
+      <div class="loc-info">
+        <div class="loc-name" data-en="East Coast Bays Library" data-zh="东海岸湾图书馆">East Coast Bays Library</div>
+        <div class="loc-addr">Bute Rd, Browns Bay, Auckland 0630</div>
+        <span class="loc-tag" data-en="$50/hr · In Person" data-zh="每小时$50 · 面授">$50/hr · In Person</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="home-card" style="margin:24px 32px 0">
+    <div class="home-icon">🏠</div>
+    <div class="home-info">
+      <h3 data-en="We Come to You — $60/hr" data-zh="我们上门服务 — 每小时$60">We Come to You — $60/hr</h3>
+      <p data-en="Prefer the comfort of your own home? We travel to tutees across the North Shore. Simply specify your address when booking and we'll confirm availability for your area." data-zh="希望在家中学习？我们可以前往北岸各地。预约时请提供您的地址，我们将确认是否能够前往您的区域。">Prefer the comfort of your own home? We travel to tutees across the North Shore. Simply specify your address when booking and we'll confirm availability for your area.</p>
+    </div>
+  </div>
+
+</div>
+</section>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <div>
+    <div class="footer-logo">Academy <span>NZ</span></div>
+    <div class="footer-copy">© 2026 Academy Tuition NZ · Auckland, New Zealand</div>
+  </div>
+  <ul class="footer-links">
+    <li><a href="mailto:info@academytuition.nz">info@academytuition.nz</a></li>
+    <li><a href="#features" data-en="Method" data-zh="教学理念">Method</a></li>
+    <li><a href="#pricing" data-en="Pricing" data-zh="价格">Pricing</a></li>
+    <li><a href="#locations" data-en="Locations" data-zh="地点">Locations</a></li>
+  </ul>
+</footer>
+
+<!-- ─── SCRIPTS ─── -->
+<script>
+// ── GOOGLE SHEETS INTEGRATION ──────────────────────────────────────────
+// STEP 1: Replace this URL with your own Google Apps Script Web App URL
+// (see the setup guide below the site)
+const GOOGLE_SHEET_URL = 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE';
+// ──────────────────────────────────────────────────────────────────────
+
+let currentLang = 'en';
+let selectedSlotEl = null;
+let selectedSlotInfo = '';
+
+// ── LANGUAGE TOGGLE ──
+function toggleLang() {
+  currentLang = currentLang === 'en' ? 'zh' : 'en';
+  document.querySelectorAll('[data-en][data-zh]').forEach(el => {
+    el.innerHTML = currentLang === 'zh' ? el.dataset.zh : el.dataset.en;
+  });
+  const toggle = document.getElementById('lang-toggle');
+  if (toggle) toggle.textContent = currentLang === 'zh' ? 'English' : '卓越学苑';
+  document.documentElement.lang = currentLang;
+}
+
+// ── CALENDAR TAB SWITCHER ──
+function showTab(id, btn) {
+  document.getElementById('tab-weekday').style.display = id === 'weekday' ? '' : 'none';
+  document.getElementById('tab-weekend').style.display = id === 'weekend' ? '' : 'none';
+  document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ── SEEDED PRNG ──
+function mulberry32(seed) {
+  return function () {
+    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
+    var t = Math.imul(seed ^ seed >>> 15, 1 | seed);
+    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
+    return ((t ^ t >>> 14) >>> 0) / 4294967296;
+  }
+}
+
+function generateSlots(days, hours, targetRate, globalSeed) {
+  const rand = mulberry32(globalSeed);
+  const total = days.length * hours.length;
+  const targetBooked = Math.round(total * targetRate);
+  const slots = {};
+  days.forEach((d, di) => { slots[di] = {}; hours.forEach((h, hi) => { slots[di][hi] = false; }); });
+  let booked = 0, attempts = 0;
+  while (booked < targetBooked && attempts < 8000) {
+    attempts++;
+    const di = Math.floor(rand() * days.length);
+    const blockLen = Math.floor(rand() * 3) + 1;
+    const startHi = Math.floor(rand() * hours.length);
+    for (let k = 0; k < blockLen; k++) {
+      const hi = startHi + k;
+      if (hi < hours.length && !slots[di][hi]) { slots[di][hi] = true; booked++; if (booked >= targetBooked) break; }
+    }
+  }
+  return slots;
+}
+
+function buildCal(containerId, days, hours, targetRate, seed) {
+  const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+  const slots = generateSlots(days, hours, targetRate, seed);
+  const wrap = document.getElementById(containerId);
+  let html = '<div class="cal-header"><div class="cal-time-header"></div><div class="cal-day-cols">';
+  days.forEach(d => html += `<div class="cal-day-name">${dayNames[d]}</div>`);
+  html += '</div></div><div class="cal-body"><div class="cal-time-col-wrap">';
+  hours.forEach(h => {
+    const lbl = h === 12 ? '12pm' : h === 0 ? '12am' : h < 12 ? `${h}am` : `${h - 12}pm`;
+    html += `<div class="cal-time-label">${lbl}</div>`;
+  });
+  html += '</div><div class="cal-day-grid">';
+  days.forEach((d, di) => {
+    html += '<div class="cal-col">';
+    hours.forEach((h, hi) => {
+      const isBooked = slots[di][hi];
+      const lbl = h === 12 ? '12pm' : h === 0 ? '12am' : h < 12 ? `${h}am` : `${h - 12}pm`;
+      const slotInfo = `${dayNames[d]} at ${lbl}`;
+      if (isBooked) {
+        html += `<div class="cal-slot booked"></div>`;
+      } else {
+        html += `<div class="cal-slot free" onclick="openModal(this,'${slotInfo}')"></div>`;
+      }
+    });
+    html += '</div>';
+  });
+  html += '</div></div>';
+  wrap.innerHTML = html;
+}
+
+buildCal('calMorning', [0, 1, 2, 3, 4], [4, 5, 6], 0.30, 0xDEADBEEF);
+buildCal('calAfternoon', [0, 1, 2, 3, 4], [16, 17, 18, 19, 20, 21], 0.30, 0xCAFEBABE);
+buildCal('calWeekend', [5, 6], Array.from({ length: 18 }, (_, i) => i + 4), 0.30, 0xF00DCAFE);
+
+// ── BOOKING MODAL ──
+function openModal(el, slotInfo) {
+  selectedSlotEl = el;
+  selectedSlotInfo = slotInfo;
+  document.getElementById('modalSlotLabel').textContent = slotInfo;
+  document.getElementById('modalForm').style.display = '';
+  document.getElementById('modalSuccess').style.display = 'none';
+  document.getElementById('bookName').value = '';
+  document.getElementById('bookEmail').value = '';
+  document.getElementById('bookPhone').value = '';
+  document.getElementById('bookSubject').value = '';
+  document.getElementById('bookFormat').value = '';
+  document.getElementById('modalError').style.display = 'none';
+  document.getElementById('modalSubmitBtn').disabled = false;
+  document.getElementById('bookingModal').classList.add('open');
+}
+
+function closeModal() {
+  document.getElementById('bookingModal').classList.remove('open');
+  selectedSlotEl = null;
+}
+
+document.getElementById('bookingModal').addEventListener('click', function (e) {
+  if (e.target === this) closeModal();
+});
+
+async function submitBooking() {
+  const name = document.getElementById('bookName').value.trim();
+  const email = document.getElementById('bookEmail').value.trim();
+  const phone = document.getElementById('bookPhone').value.trim();
+  const subject = document.getElementById('bookSubject').value;
+  const format = document.getElementById('bookFormat').value;
+
+  if (!name || !email || !phone || !subject || !format) {
+    document.getElementById('modalError').style.display = 'block';
+    return;
+  }
+
+  const btn = document.getElementById('modalSubmitBtn');
+  btn.disabled = true;
+  btn.textContent = currentLang === 'zh' ? '提交中…' : 'Submitting…';
+
+  const payload = {
+    name, email, phone, subject, format,
+    slot: selectedSlotInfo,
+    timestamp: new Date().toISOString(),
+    lang: currentLang
+  };
+
+  try {
+    // Send to Google Sheets via Apps Script
+    if (GOOGLE_SHEET_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE') {
+      await fetch(GOOGLE_SHEET_URL, {
+        method: 'POST',
+        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(payload)
+      });
+    }
+
+    // Mark slot as pending in UI
+    if (selectedSlotEl) {
+      selectedSlotEl.classList.remove('free');
+      selectedSlotEl.classList.add('pending');
+      selectedSlotEl.onclick = null;
+    }
+
+    document.getElementById('modalForm').style.display = 'none';
+    document.getElementById('modalSuccess').style.display = 'block';
+
+    setTimeout(closeModal, 3200);
+  } catch (err) {
+    btn.disabled = false;
+    btn.textContent = currentLang === 'zh' ? '确认预约' : 'Confirm Booking';
+    document.getElementById('modalError').textContent = 'Network error — please email us directly.';
+    document.getElementById('modalError').style.display = 'block';
+  }
+}
+
+// ── SCROLL FADE ──
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; }
+  });
+}, { threshold: 0.1 });
+document.querySelectorAll('.feat-card,.price-card,.tutee-card,.loc-card,.review-card').forEach(el => {
+  el.style.opacity = '0'; el.style.transform = 'translateY(16px)'; el.style.transition = 'opacity .5s ease, transform .5s ease';
+  observer.observe(el);
+});
+</script>
+</body>
+</html>
