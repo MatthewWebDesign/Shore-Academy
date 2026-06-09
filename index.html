@@ -112,7 +112,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(11,28,61,0.9
 .cal-day-grid{flex:1;display:flex}
 .cal-col{flex:1;display:flex;flex-direction:column}
 .cal-slot{height:26px;border-bottom:1px solid rgba(255,255,255,0.03);border-left:1px solid rgba(255,255,255,0.04);transition:background .12s}
-.cal-slot.booked{background:rgba(201,168,76,0.3);cursor:default;position:relative}
+.cal-slot.booked{background:var(--gold);cursor:default;position:relative}
 .cal-slot.free{background:rgba(255,255,255,0.02);cursor:pointer}
 .cal-slot.free:hover{background:rgba(201,168,76,0.15)}
 .cal-slot.pending{background:rgba(100,200,100,0.28)!important;cursor:default}
@@ -587,7 +587,7 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
 // Replace with your deployed Google Apps Script URL.
 // The same URL handles both GET (fetch booked slots) and POST (write new booking).
 // ─────────────────────────────────────────────────────────────────────────────
-const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwzAfD09aHN6zXtktWPSIgYO6oRwYEBPmLv1DoISyJjc5d7Totr39FtuU15_Gfb_AoB4A/exec';
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbxvZEcGV2ewBOEYlgbj4Ub_Cr8rYgxqfmZtDRXFxD2FPU2awz592VHvC-CZsDNt-iGNEg/exec';
 
 // ─── LANGUAGE ───────────────────────────────────────────────────────────────
 let currentLang = 'en';
@@ -617,18 +617,23 @@ function slotKey(dayName, hour){ return `${dayName}|${hour}`; }
 
 // ─── FETCH BOOKED SLOTS FROM SHEET ON LOAD ───────────────────────────────────
 async function loadBookedSlots(){
-  if(SHEET_URL === 'https://script.google.com/macros/s/AKfycbwzAfD09aHN6zXtktWPSIgYO6oRwYEBPmLv1DoISyJjc5d7Totr39FtuU15_Gfb_AoB4A/exec'){
-    buildAllCals(); // just build empty calendars
+  if(SHEET_URL === 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'){
+    buildAllCals();
     return;
   }
   try{
-    const res = await fetch(SHEET_URL + '?action=getSlots', {cache:'no-store'});
+    // Use a JSONP-style callback to avoid CORS opaque response issues with no-cors.
+    // The Apps Script doGet must return JSON with the correct CORS header (see guide below).
+    const res = await fetch(SHEET_URL + '?action=getSlots', {
+      method: 'GET',
+      cache: 'no-store'
+    });
+    if(!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
-    // data.slots = array of slot keys e.g. ["Mon|4","Tue|17"]
     if(data.slots && Array.isArray(data.slots)){
       data.slots.forEach(k => bookedSlots.add(k));
     }
-  } catch(e){ console.warn('Could not load slots:', e); }
+  } catch(e){ console.warn('Could not load booked slots:', e); }
   buildAllCals();
 }
 
@@ -776,9 +781,16 @@ async function submitBooking(){
   };
 
   try{
-    if(SHEET_URL !== 'https://script.google.com/macros/s/AKfycbwzAfD09aHN6zXtktWPSIgYO6oRwYEBPmLv1DoISyJjc5d7Totr39FtuU15_Gfb_AoB4A/exec'){
-      await fetch(SHEET_URL, {method:'POST', mode:'no-cors',
-        headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)});
+    if(SHEET_URL !== 'YOUR_GOOGLE_APPS_SCRIPT_URL_HERE'){
+      // Apps Script redirects POST to a new URL — we must follow that redirect.
+      // mode:'no-cors' silently drops the JSON body. Use cors mode instead; the
+      // updated doPost in the Apps Script returns the required CORS headers.
+      await fetch(SHEET_URL, {
+        method: 'POST',
+        mode: 'cors',
+        headers: {'Content-Type': 'text/plain'}, // Apps Script accepts text/plain without a preflight
+        body: JSON.stringify(payload)
+      });
     }
     // Mark booked locally immediately for this user
     bookedSlots.add(selectedSlotKey);
