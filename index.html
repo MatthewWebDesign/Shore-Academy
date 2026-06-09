@@ -45,12 +45,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(11,28,61,0.9
 .hf:nth-child(7){top:34%;left:14%;font-size:32px;opacity:.5}
 .hf:nth-child(8){top:44%;right:14%;font-size:28px;opacity:.5}
 
-/* TICKER */
-.ticker-wrap{overflow:hidden;white-space:nowrap;background:var(--navy2);border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06);padding:10px 0}
-.ticker-inner{display:inline-flex;animation:ticker 32s linear infinite}
-@keyframes ticker{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-.ticker-item{display:inline-block;padding:0 28px;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:rgba(255,255,255,0.32)}
-.ticker-dot{color:var(--gold)}
+/* SUBJECT STRIP (static) */
+.subject-strip{background:var(--navy2);border-top:1px solid rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.06);padding:16px 32px;display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:10px}
+.subject-pill{display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:30px;padding:7px 16px;font-size:12px;font-weight:500;letter-spacing:.5px;color:rgba(255,255,255,0.65)}
+.subject-pill .pill-dot{width:6px;height:6px;border-radius:50%;background:var(--gold);flex-shrink:0}
 
 /* STATS */
 #stats{background:var(--gold);display:flex;justify-content:center;flex-wrap:wrap}
@@ -102,6 +100,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(11,28,61,0.9
 .cal-section-label{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--gold2);font-weight:600;margin-bottom:6px}
 .cal-section-title{font-family:'DM Serif Display',serif;font-size:22px;color:#fff;margin-bottom:4px}
 .cal-section-sub{font-size:13px;color:rgba(255,255,255,0.4);margin-bottom:20px}
+.cal-loading{font-size:13px;color:rgba(255,255,255,0.3);padding:20px 0;text-align:center}
 .cal-wrap{background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.1);border-radius:14px;overflow:hidden;margin-bottom:12px}
 .cal-header{display:flex;background:rgba(255,255,255,0.06);border-bottom:1px solid rgba(255,255,255,0.08)}
 .cal-time-header{width:54px;flex-shrink:0}
@@ -113,7 +112,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(11,28,61,0.9
 .cal-day-grid{flex:1;display:flex}
 .cal-col{flex:1;display:flex;flex-direction:column}
 .cal-slot{height:26px;border-bottom:1px solid rgba(255,255,255,0.03);border-left:1px solid rgba(255,255,255,0.04);transition:background .12s}
-.cal-slot.booked{background:rgba(201,168,76,0.28);cursor:default}
+.cal-slot.booked{background:rgba(201,168,76,0.3);cursor:default;position:relative}
 .cal-slot.free{background:rgba(255,255,255,0.02);cursor:pointer}
 .cal-slot.free:hover{background:rgba(201,168,76,0.15)}
 .cal-slot.pending{background:rgba(100,200,100,0.28)!important;cursor:default}
@@ -136,7 +135,6 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(11,28,61,0.9
 .modal-title{font-family:'DM Serif Display',serif;font-size:22px;color:#fff;margin-bottom:4px}
 .modal-slot-lbl{font-size:14px;color:rgba(255,255,255,0.45);margin-bottom:22px;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,0.08)}
 .modal-field-label{font-size:11px;letter-spacing:1px;text-transform:uppercase;color:rgba(255,255,255,0.4);margin-bottom:6px;margin-top:14px;display:block}
-.modal-field-label:first-of-type{margin-top:0}
 .modal input,.modal select{width:100%;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:9px;padding:12px 14px;color:#fff;font-family:'Outfit',sans-serif;font-size:14px;outline:none;transition:border .2s;appearance:none}
 .modal input:focus,.modal select:focus{border-color:rgba(201,168,76,0.5)}
 .modal input::placeholder{color:rgba(255,255,255,0.28)}
@@ -169,8 +167,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(11,28,61,0.9
 .tutors-inner{max-width:900px;margin:0 auto}
 .tutee-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(252px,1fr));gap:28px}
 .tutee-card{background:var(--white);border:1px solid var(--border);border-radius:16px;overflow:hidden}
-.tutee-img{height:230px;display:flex;align-items:center;justify-content:center;font-size:80px;position:relative;overflow:hidden}
-.tutee-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 55%,rgba(11,28,61,0.65))}
+.tutee-img{height:260px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:#1a2f5e}
+.tutee-img img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+.tutee-img .img-fallback{font-size:80px;position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.tutee-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 55%,rgba(11,28,61,0.7));pointer-events:none}
 .tutee-rank{position:absolute;bottom:0;left:0;right:0;z-index:1;padding:16px 18px}
 .tutee-rank-badge{display:inline-block;background:var(--gold);color:var(--navy);font-size:10px;font-weight:700;letter-spacing:1px;padding:4px 12px;border-radius:20px;text-transform:uppercase}
 .tutee-body{padding:24px}
@@ -223,7 +223,6 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
 <div class="modal-overlay" id="bookingModal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">✕</button>
-
     <div id="modalForm">
       <div class="modal-badge" id="m-badge">Reserve a Slot</div>
       <div class="modal-title" id="m-title">Book this session</div>
@@ -284,7 +283,6 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
       <button class="modal-btn" id="modalSubmitBtn" onclick="submitBooking()">Confirm Booking</button>
       <div class="modal-error" id="modalError">Please fill in all fields.</div>
     </div>
-
     <div class="modal-success" id="modalSuccess">
       <div class="modal-success-icon">✅</div>
       <div class="modal-success-title" id="m-success-title">Booking received!</div>
@@ -295,7 +293,7 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
 
 <!-- NAV -->
 <nav>
-  <div class="nav-logo">Shore Academy - <span id="lang-toggle" onclick="toggleLang()" title="切换中文 / Switch to Chinese" style="cursor:pointer;border-bottom:1px dashed rgba(201,168,76,0.5);transition:opacity .2s" onmouseenter="this.style.opacity='.7'" onmouseleave="this.style.opacity='1'">卓越学苑</span></div>
+  <div class="nav-logo">Shore <span id="lang-toggle" onclick="toggleLang()" title="切换中文 / Switch to Chinese" style="cursor:pointer;border-bottom:1px dashed rgba(201,168,76,0.5)" onmouseenter="this.style.opacity='.7'" onmouseleave="this.style.opacity='1'">卓越学苑</span></div>
   <ul class="nav-links">
     <li><a href="#features" data-en="Method" data-zh="教学理念">Method</a></li>
     <li><a href="#pricing" data-en="Pricing" data-zh="价格">Pricing</a></li>
@@ -321,30 +319,14 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
   </div>
 </section>
 
-<!-- TICKER -->
-<div class="ticker-wrap">
-  <div class="ticker-inner">
-    <span class="ticker-item" data-en="Mathematics" data-zh="数学">Mathematics<span class="ticker-dot"> · </span></span>
-    <span class="ticker-item" data-en="Statistics" data-zh="统计学">Statistics<span class="ticker-dot"> · </span></span>
-    <span class="ticker-item" data-en="Chemistry" data-zh="化学">Chemistry<span class="ticker-dot"> · </span></span>
-    <span class="ticker-item" data-en="Physics" data-zh="物理">Physics<span class="ticker-dot"> · </span></span>
-    <span class="ticker-item" data-en="English" data-zh="英语">English<span class="ticker-dot"> · </span></span>
-    <span class="ticker-item" data-en="Year 7–11" data-zh="7至11年级">Year 7–11<span class="ticker-dot"> · </span></span>
-    <span class="ticker-item" data-en="SAT Prep" data-zh="SAT备考">SAT Prep<span class="ticker-dot"> · </span></span>
-    <span class="ticker-item" data-en="Economics" data-zh="经济学">Economics<span class="ticker-dot"> · </span></span>
-    <span class="ticker-item" data-en="Biology" data-zh="生物">Biology<span class="ticker-dot"> · </span></span>
-    <span class="ticker-item" data-en="NCEA Levels 1–3" data-zh="NCEA一至三级">NCEA Levels 1–3<span class="ticker-dot"> · </span></span>
-    <span class="ticker-item" data-en="Mathematics" data-zh="数学">Mathematics<span class="ticker-dot"> · </span></span>
-    <span class="ticker-item" data-en="Statistics" data-zh="统计学">Statistics<span class="ticker-dot"> · </span></span>
-    <span class="ticker-item" data-en="Chemistry" data-zh="化学">Chemistry<span class="ticker-dot"> · </span></span>
-    <span class="ticker-item" data-en="Physics" data-zh="物理">Physics<span class="ticker-dot"> · </span></span>
-    <span class="ticker-item" data-en="English" data-zh="英语">English<span class="ticker-dot"> · </span></span>
-    <span class="ticker-item" data-en="Year 7–11" data-zh="7至11年级">Year 7–11<span class="ticker-dot"> · </span></span>
-    <span class="ticker-item" data-en="SAT Prep" data-zh="SAT备考">SAT Prep<span class="ticker-dot"> · </span></span>
-    <span class="ticker-item" data-en="Economics" data-zh="经济学">Economics<span class="ticker-dot"> · </span></span>
-    <span class="ticker-item" data-en="Biology" data-zh="生物">Biology<span class="ticker-dot"> · </span></span>
-    <span class="ticker-item" data-en="NCEA Levels 1–3" data-zh="NCEA一至三级">NCEA Levels 1–3<span class="ticker-dot"> · </span></span>
-  </div>
+<!-- SUBJECT STRIP (static) -->
+<div class="subject-strip">
+  <div class="subject-pill" data-en='<span class="pill-dot"></span>Mathematics (Numeracy)' data-zh='<span class="pill-dot"></span>数学（数感）'><span class="pill-dot"></span>Mathematics (Numeracy)</div>
+  <div class="subject-pill" data-en='<span class="pill-dot"></span>Mathematics (Calculus)' data-zh='<span class="pill-dot"></span>数学（微积分）'><span class="pill-dot"></span>Mathematics (Calculus)</div>
+  <div class="subject-pill" data-en='<span class="pill-dot"></span>English' data-zh='<span class="pill-dot"></span>英语'><span class="pill-dot"></span>English</div>
+  <div class="subject-pill" data-en='<span class="pill-dot"></span>Physics' data-zh='<span class="pill-dot"></span>物理'><span class="pill-dot"></span>Physics</div>
+  <div class="subject-pill" data-en='<span class="pill-dot"></span>Chemistry' data-zh='<span class="pill-dot"></span>化学'><span class="pill-dot"></span>Chemistry</div>
+  <div class="subject-pill" data-en='<span class="pill-dot"></span>SAT Prep' data-zh='<span class="pill-dot"></span>SAT备考'><span class="pill-dot"></span>SAT Prep</div>
 </div>
 
 <!-- STATS -->
@@ -454,7 +436,6 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
       <div class="leg">
         <span><span class="leg-dot" style="background:rgba(201,168,76,0.38)"></span><span data-en="Booked" data-zh="已预约">Booked</span></span>
         <span><span class="leg-dot" style="background:rgba(255,255,255,0.06)"></span><span data-en="Available" data-zh="可预约">Available</span></span>
-        <span><span class="leg-dot" style="background:rgba(100,200,100,0.35)"></span><span data-en="Pending" data-zh="待确认">Pending</span></span>
       </div>
     </div>
     <div id="tab-weekend" style="display:none">
@@ -463,7 +444,6 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
       <div class="leg">
         <span><span class="leg-dot" style="background:rgba(201,168,76,0.38)"></span><span data-en="Booked" data-zh="已预约">Booked</span></span>
         <span><span class="leg-dot" style="background:rgba(255,255,255,0.06)"></span><span data-en="Available" data-zh="可预约">Available</span></span>
-        <span><span class="leg-dot" style="background:rgba(100,200,100,0.35)"></span><span data-en="Pending" data-zh="待确认">Pending</span></span>
       </div>
     </div>
   </div>
@@ -477,41 +457,13 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
     <h2 class="section-title" data-en="What families say." data-zh="家长与学生怎么说。">What families say.</h2>
   </div>
   <div class="review-track">
-    <div class="review-card">
-      <div class="stars">★★★★★</div>
-      <div class="review-text" data-en='"My daughter went from Merit to Excellence in Mathematics within one term. The patience and method are exceptional."' data-zh='"我女儿在一个学期内从良好进步到了数学优秀。导师的耐心和教学方法都非常出色。"'>"My daughter went from Merit to Excellence in Mathematics within one term. The patience and method are exceptional."</div>
-      <div class="reviewer-name">Jennifer L.</div><div class="reviewer-sub" data-en="Parent · Northcross" data-zh="家长 · Northcross">Parent · Northcross</div>
-    </div>
-    <div class="review-card">
-      <div class="stars">★★★★★</div>
-      <div class="review-text" data-en='"Finally, a tutor who doesn&apos;t just give the answers. My son actually understands the material now — something school never achieved."' data-zh='"终于找到了一位不只是给答案的导师。我儿子现在真正理解了所学内容——这是学校从未做到的。"'>"Finally, a tutor who doesn't just give the answers. My son actually understands the material now — something school never achieved."</div>
-      <div class="reviewer-name">David K.</div><div class="reviewer-sub" data-en="Parent · Torbay" data-zh="家长 · Torbay">Parent · Torbay</div>
-    </div>
-    <div class="review-card">
-      <div class="stars">★★★★★</div>
-      <div class="review-text" data-en='"Incredible depth of knowledge. My son went from struggling in Year 9 Maths to being near the top of his class."' data-zh='"知识深度令人叹服。我儿子从9年级数学困难，进步到接近班级前列。"'>"Incredible depth of knowledge. My son went from struggling in Year 9 Maths to being near the top of his class."</div>
-      <div class="reviewer-name">Min-Ji P.</div><div class="reviewer-sub" data-en="Parent · Long Bay" data-zh="家长 · Long Bay">Parent · Long Bay</div>
-    </div>
-    <div class="review-card">
-      <div class="stars">★★★★☆</div>
-      <div class="review-text" data-en='"Incredibly flexible scheduling — early morning slots have been a lifesaver for us. Genuine care for each student."' data-zh='"时间安排非常灵活——清晨时段对我们来说非常实用。导师真心关心每位学生。"'>"Incredibly flexible scheduling — early morning slots have been a lifesaver for us. Genuine care for each student."</div>
-      <div class="reviewer-name">Sarah T.</div><div class="reviewer-sub" data-en="Parent · Browns Bay" data-zh="家长 · Browns Bay">Parent · Browns Bay</div>
-    </div>
-    <div class="review-card">
-      <div class="stars">★★★★★</div>
-      <div class="review-text" data-en='"The concept-first approach made me realise how shallow my understanding was. Now I can solve problems I&apos;ve never seen before."' data-zh='"概念优先的教学方式让我意识到自己之前理解有多浅薄。现在我能解决从未见过的题目了。"'>"The concept-first approach made me realise how shallow my understanding was. Now I can solve problems I've never seen before."</div>
-      <div class="reviewer-name">James C.</div><div class="reviewer-sub" data-en="Student · Rangitoto College" data-zh="学生 · Rangitoto College">Student · Rangitoto College</div>
-    </div>
-    <div class="review-card">
-      <div class="stars">★★★★★</div>
-      <div class="review-text" data-en='"Worth every dollar. My twins both improved significantly. The library sessions are well organised and productive."' data-zh='"物超所值。我的双胞胎都有了显著进步。图书馆课程组织有序、效率很高。"'>"Worth every dollar. My twins both improved significantly. The library sessions are well organised and productive."</div>
-      <div class="reviewer-name">Mei W.</div><div class="reviewer-sub" data-en="Parent · Mairangi Bay" data-zh="家长 · Mairangi Bay">Parent · Mairangi Bay</div>
-    </div>
-    <div class="review-card">
-      <div class="stars">★★★★★</div>
-      <div class="review-text" data-en='"Our son went from struggling in Year 10 to being one of the top students in his year. The turnaround was remarkable."' data-zh='"我们的儿子从10年级的困难生成长为年级优秀学生。这种进步令人印象深刻。"'>"Our son went from struggling in Year 10 to being one of the top students in his year. The turnaround was remarkable."</div>
-      <div class="reviewer-name">Robert S.</div><div class="reviewer-sub" data-en="Parent · Ōrewa" data-zh="家长 · Ōrewa">Parent · Ōrewa</div>
-    </div>
+    <div class="review-card"><div class="stars">★★★★★</div><div class="review-text" data-en='"My daughter went from Merit to Excellence in Mathematics within one term. The patience and method are exceptional."' data-zh='"我女儿在一个学期内从良好进步到了数学优秀。导师的耐心和教学方法都非常出色。"'>"My daughter went from Merit to Excellence in Mathematics within one term. The patience and method are exceptional."</div><div class="reviewer-name">Jennifer L.</div><div class="reviewer-sub" data-en="Parent · Northcross" data-zh="家长 · Northcross">Parent · Northcross</div></div>
+    <div class="review-card"><div class="stars">★★★★★</div><div class="review-text" data-en='"Finally, a tutor who doesn&apos;t just give the answers. My son actually understands the material now — something school never achieved."' data-zh='"终于找到了一位不只是给答案的导师。我儿子现在真正理解了所学内容——这是学校从未做到的。"'>"Finally, a tutor who doesn't just give the answers. My son actually understands the material now — something school never achieved."</div><div class="reviewer-name">David K.</div><div class="reviewer-sub" data-en="Parent · Torbay" data-zh="家长 · Torbay">Parent · Torbay</div></div>
+    <div class="review-card"><div class="stars">★★★★★</div><div class="review-text" data-en='"Incredible depth of knowledge. My son went from struggling in Year 9 Maths to being near the top of his class."' data-zh='"知识深度令人叹服。我儿子从9年级数学困难，进步到接近班级前列。"'>"Incredible depth of knowledge. My son went from struggling in Year 9 Maths to being near the top of his class."</div><div class="reviewer-name">Min-Ji P.</div><div class="reviewer-sub" data-en="Parent · Long Bay" data-zh="家长 · Long Bay">Parent · Long Bay</div></div>
+    <div class="review-card"><div class="stars">★★★★☆</div><div class="review-text" data-en='"Incredibly flexible scheduling — early morning slots have been a lifesaver for us. Genuine care for each student."' data-zh='"时间安排非常灵活——清晨时段对我们来说非常实用。导师真心关心每位学生。"'>"Incredibly flexible scheduling — early morning slots have been a lifesaver for us. Genuine care for each student."</div><div class="reviewer-name">Sarah T.</div><div class="reviewer-sub" data-en="Parent · Browns Bay" data-zh="家长 · Browns Bay">Parent · Browns Bay</div></div>
+    <div class="review-card"><div class="stars">★★★★★</div><div class="review-text" data-en='"The concept-first approach made me realise how shallow my understanding was. Now I can solve problems I&apos;ve never seen before."' data-zh='"概念优先的教学方式让我意识到自己之前理解有多浅薄。现在我能解决从未见过的题目了。"'>"The concept-first approach made me realise how shallow my understanding was. Now I can solve problems I've never seen before."</div><div class="reviewer-name">James C.</div><div class="reviewer-sub" data-en="Student · Rangitoto College" data-zh="学生 · Rangitoto College">Student · Rangitoto College</div></div>
+    <div class="review-card"><div class="stars">★★★★★</div><div class="review-text" data-en='"Worth every dollar. My twins both improved significantly. The library sessions are well organised and productive."' data-zh='"物超所值。我的双胞胎都有了显著进步。图书馆课程组织有序、效率很高。"'>"Worth every dollar. My twins both improved significantly. The library sessions are well organised and productive."</div><div class="reviewer-name">Mei W.</div><div class="reviewer-sub" data-en="Parent · Mairangi Bay" data-zh="家长 · Mairangi Bay">Parent · Mairangi Bay</div></div>
+    <div class="review-card"><div class="stars">★★★★★</div><div class="review-text" data-en='"Our son went from struggling in Year 10 to being one of the top students in his year. The turnaround was remarkable."' data-zh='"我们的儿子从10年级的困难生成长为年级优秀学生。这种进步令人印象深刻。"'>"Our son went from struggling in Year 10 to being one of the top students in his year. The turnaround was remarkable."</div><div class="reviewer-name">Robert S.</div><div class="reviewer-sub" data-en="Parent · Ōrewa" data-zh="家长 · Ōrewa">Parent · Ōrewa</div></div>
   </div>
 </section>
 
@@ -525,10 +477,12 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
   </div>
   <div class="tutee-grid" style="padding:0 32px">
 
+    <!-- D'Angelo -->
     <div class="tutee-card">
       <div class="tutee-img" style="background:linear-gradient(135deg,#1a3a6b 0%,#0d2240 100%)">
-        <span style="font-size:72px;z-index:0">👩‍💻</span>
-        <div class="tutee-rank"><span class="tutee-rank-badge" data-en="Top 2% Student" data-zh="前2%学生">Top 2% Student</span></div>
+        <img src="images/dangelo.jpg" alt="D'Angelo Maclaren" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-fallback" style="display:none">👩‍💻</div>
+        <div class="tutee-rank"><span class="tutee-rank-badge" data-en="Top 0.5% Student" data-zh="前0.5%学生">Top 0.5% Student</span></div>
       </div>
       <div class="tutee-body">
         <div class="tutee-name">D'Angelo Maclaren</div>
@@ -544,28 +498,33 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
       </div>
     </div>
 
+    <!-- Mitchell -->
     <div class="tutee-card">
       <div class="tutee-img" style="background:linear-gradient(135deg,#1e3a2f 0%,#0f2118 100%)">
-        <span style="font-size:72px;z-index:0">👨‍🔬</span>
-        <div class="tutee-rank"><span class="tutee-rank-badge" data-en="Top 2% Student" data-zh="前3%学生">Top 2% Student</span></div>
+        <img src="images/mitchell.jpg" alt="Mitchell Baird" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-fallback" style="display:none">👨‍🔬</div>
+        <div class="tutee-rank"><span class="tutee-rank-badge" data-en="Top 3% Student" data-zh="前3%学生">Top 3% Student</span></div>
       </div>
       <div class="tutee-body">
         <div class="tutee-name">Mitchell Baird</div>
         <div class="tutee-school" data-en="at Long Bay College" data-zh="就读于Long Bay College">at Long Bay College</div>
-        <div class="tutee-subjects" data-en="Specialises in <strong>English</strong>, <strong>Physics</strong>, and <strong>Mathematics</strong>" data-zh="专攻<strong>数字技术</strong>、<strong>物理</strong>和<strong>数学</strong>">Specialises in <strong>English</strong>, <strong>Physics</strong>, and <strong>Mathematics</strong></div>
+        <div class="tutee-subjects" data-en="Specialises in <strong>DTS</strong>, <strong>Physics</strong>, and <strong>Mathematics</strong>" data-zh="专攻<strong>数字技术</strong>、<strong>物理</strong>和<strong>数学</strong>">Specialises in <strong>DTS</strong>, <strong>Physics</strong>, and <strong>Mathematics</strong></div>
         <div class="tutee-honours">
           <div class="honour-title" data-en="Honours &amp; Achievements" data-zh="荣誉与成就">Honours &amp; Achievements</div>
           <div class="honour-item" data-en="Extension Maths &amp; English" data-zh="数学及英语拓展课程">Extension Maths &amp; English</div>
           <div class="honour-item" data-en="NCEA Excellence Endorsed — All Subjects" data-zh="NCEA所有科目优秀认证">NCEA Excellence Endorsed — All Subjects</div>
           <div class="honour-item" data-en="Previous Intermediate Teaching Experience" data-zh="具有中学初级阶段教学经验">Previous Intermediate Teaching Experience</div>
+          <div class="honour-item" data-en="Aspiring Scholars Alumni" data-zh="卓越学者项目校友">Aspiring Scholars Alumni</div>
         </div>
       </div>
     </div>
 
+    <!-- Matthew -->
     <div class="tutee-card">
       <div class="tutee-img" style="background:linear-gradient(135deg,#3a1a1a 0%,#200d0d 100%)">
-        <span style="font-size:72px;z-index:0">👨‍📖</span>
-        <div class="tutee-rank"><span class="tutee-rank-badge" data-en="Top 2% Student" data-zh="前2%学生">Top 2% Student</span></div>
+        <img src="images/matthew.jpg" alt="Matthew Fitness" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+        <div class="img-fallback" style="display:none">👨‍📖</div>
+        <div class="tutee-rank"><span class="tutee-rank-badge" data-en="Top 1% Student" data-zh="前1%学生">Top 1% Student</span></div>
       </div>
       <div class="tutee-body">
         <div class="tutee-name">Matthew Fitness</div>
@@ -594,30 +553,9 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
     <p class="section-sub" style="color:rgba(255,255,255,0.45)" data-en="Three library venues across the North Shore, all easily accessible. Or we come to you." data-zh="北岸三处图书馆授课地点，交通便利。或由我们上门服务。">Three library venues across the North Shore, all easily accessible. Or we come to you.</p>
   </div>
   <div class="loc-grid" style="padding:0 32px">
-    <div class="loc-card">
-      <div class="loc-map"><svg viewBox="0 0 220 155" xmlns="http://www.w3.org/2000/svg"><rect width="220" height="155" fill="#1a2f5e"/><rect x="0" y="67" width="220" height="8" class="map-road-h"/><rect x="94" y="0" width="8" height="155" class="map-road-v"/><rect x="10" y="10" width="70" height="50" class="map-block" rx="2"/><rect x="110" y="10" width="55" height="50" class="map-block" rx="2"/><rect x="172" y="10" width="38" height="50" class="map-block" rx="2"/><rect x="10" y="83" width="50" height="62" class="map-block" rx="2"/><rect x="110" y="83" width="100" height="62" class="map-block" rx="2"/><line x1="0" y1="30" x2="220" y2="30" stroke="rgba(255,255,255,0.04)" stroke-width="1"/><line x1="0" y1="110" x2="220" y2="110" stroke="rgba(255,255,255,0.04)" stroke-width="1"/><line x1="50" y1="0" x2="50" y2="155" stroke="rgba(255,255,255,0.04)" stroke-width="1"/><line x1="160" y1="0" x2="160" y2="155" stroke="rgba(255,255,255,0.04)" stroke-width="1"/><circle cx="98" cy="71" r="12" class="map-pin-ring"/><circle cx="98" cy="71" r="4.5" class="map-pin"/><text x="110" y="143" text-anchor="middle" class="map-label">Massey University Area</text></svg></div>
-      <div class="loc-info">
-        <div class="loc-name" data-en="Massey Library" data-zh="梅西图书馆">Massey Library</div>
-        <div class="loc-addr">Silverfield, Albany, Auckland 0632</div>
-        <span class="loc-tag" data-en="$50/hr · In Person" data-zh="每小时$50 · 面授">$50/hr · In Person</span>
-      </div>
-    </div>
-    <div class="loc-card">
-      <div class="loc-map"><svg viewBox="0 0 220 155" xmlns="http://www.w3.org/2000/svg"><rect width="220" height="155" fill="#1a2f5e"/><path d="M0 80 Q55 62 110 76 Q165 90 220 72" stroke="rgba(100,180,255,0.18)" stroke-width="4" fill="none"/><rect x="0" y="54" width="220" height="8" class="map-road-h"/><rect x="70" y="0" width="8" height="155" class="map-road-v"/><rect x="10" y="10" width="50" height="37" class="map-block" rx="2"/><rect x="85" y="10" width="78" height="37" class="map-block" rx="2"/><rect x="170" y="10" width="40" height="37" class="map-block" rx="2"/><rect x="10" y="70" width="50" height="75" class="map-block" rx="2"/><rect x="85" y="70" width="125" height="75" class="map-block" rx="2"/><line x1="0" y1="30" x2="220" y2="30" stroke="rgba(255,255,255,0.04)" stroke-width="1"/><line x1="140" y1="0" x2="140" y2="155" stroke="rgba(255,255,255,0.04)" stroke-width="1"/><circle cx="74" cy="58" r="12" class="map-pin-ring"/><circle cx="74" cy="58" r="4.5" class="map-pin"/><text x="110" y="143" text-anchor="middle" class="map-label">Orewa Town Centre</text></svg></div>
-      <div class="loc-info">
-        <div class="loc-name" data-en="Orewa Library" data-zh="奥雷瓦图书馆">Orewa Library</div>
-        <div class="loc-addr">1 Centreway Rd, Orewa, Auckland 0931</div>
-        <span class="loc-tag" data-en="$50/hr · In Person" data-zh="每小时$50 · 面授">$50/hr · In Person</span>
-      </div>
-    </div>
-    <div class="loc-card">
-      <div class="loc-map"><svg viewBox="0 0 220 155" xmlns="http://www.w3.org/2000/svg"><rect width="220" height="155" fill="#1a2f5e"/><rect x="0" y="70" width="220" height="8" class="map-road-h"/><rect x="0" y="44" width="220" height="5" style="fill:rgba(255,255,255,0.05)"/><rect x="104" y="0" width="8" height="155" class="map-road-v"/><rect x="48" y="0" width="5" height="155" style="fill:rgba(255,255,255,0.05)"/><rect x="10" y="10" width="30" height="27" class="map-block" rx="2"/><rect x="55" y="10" width="40" height="27" class="map-block" rx="2"/><rect x="118" y="10" width="82" height="27" class="map-block" rx="2"/><rect x="10" y="83" width="82" height="62" class="map-block" rx="2"/><rect x="118" y="83" width="82" height="62" class="map-block" rx="2"/><line x1="0" y1="30" x2="220" y2="30" stroke="rgba(255,255,255,0.04)" stroke-width="1"/><line x1="0" y1="115" x2="220" y2="115" stroke="rgba(255,255,255,0.04)" stroke-width="1"/><circle cx="112" cy="57" r="12" class="map-pin-ring"/><circle cx="112" cy="57" r="4.5" class="map-pin"/><text x="110" y="143" text-anchor="middle" class="map-label">East Coast Bays Area</text></svg></div>
-      <div class="loc-info">
-        <div class="loc-name" data-en="East Coast Bays Library" data-zh="东海岸湾图书馆">East Coast Bays Library</div>
-        <div class="loc-addr">Bute Rd, Browns Bay, Auckland 0630</div>
-        <span class="loc-tag" data-en="$50/hr · In Person" data-zh="每小时$50 · 面授">$50/hr · In Person</span>
-      </div>
-    </div>
+    <div class="loc-card"><div class="loc-map"><svg viewBox="0 0 220 155" xmlns="http://www.w3.org/2000/svg"><rect width="220" height="155" fill="#1a2f5e"/><rect x="0" y="67" width="220" height="8" class="map-road-h"/><rect x="94" y="0" width="8" height="155" class="map-road-v"/><rect x="10" y="10" width="70" height="50" class="map-block" rx="2"/><rect x="110" y="10" width="55" height="50" class="map-block" rx="2"/><rect x="172" y="10" width="38" height="50" class="map-block" rx="2"/><rect x="10" y="83" width="50" height="62" class="map-block" rx="2"/><rect x="110" y="83" width="100" height="62" class="map-block" rx="2"/><line x1="0" y1="30" x2="220" y2="30" stroke="rgba(255,255,255,0.04)" stroke-width="1"/><line x1="0" y1="110" x2="220" y2="110" stroke="rgba(255,255,255,0.04)" stroke-width="1"/><line x1="50" y1="0" x2="50" y2="155" stroke="rgba(255,255,255,0.04)" stroke-width="1"/><line x1="160" y1="0" x2="160" y2="155" stroke="rgba(255,255,255,0.04)" stroke-width="1"/><circle cx="98" cy="71" r="12" class="map-pin-ring"/><circle cx="98" cy="71" r="4.5" class="map-pin"/><text x="110" y="143" text-anchor="middle" class="map-label">Massey University Area</text></svg></div><div class="loc-info"><div class="loc-name" data-en="Massey Library" data-zh="梅西图书馆">Massey Library</div><div class="loc-addr">Silverfield, Albany, Auckland 0632</div><span class="loc-tag" data-en="$50/hr · In Person" data-zh="每小时$50 · 面授">$50/hr · In Person</span></div></div>
+    <div class="loc-card"><div class="loc-map"><svg viewBox="0 0 220 155" xmlns="http://www.w3.org/2000/svg"><rect width="220" height="155" fill="#1a2f5e"/><path d="M0 80 Q55 62 110 76 Q165 90 220 72" stroke="rgba(100,180,255,0.18)" stroke-width="4" fill="none"/><rect x="0" y="54" width="220" height="8" class="map-road-h"/><rect x="70" y="0" width="8" height="155" class="map-road-v"/><rect x="10" y="10" width="50" height="37" class="map-block" rx="2"/><rect x="85" y="10" width="78" height="37" class="map-block" rx="2"/><rect x="170" y="10" width="40" height="37" class="map-block" rx="2"/><rect x="10" y="70" width="50" height="75" class="map-block" rx="2"/><rect x="85" y="70" width="125" height="75" class="map-block" rx="2"/><line x1="0" y1="30" x2="220" y2="30" stroke="rgba(255,255,255,0.04)" stroke-width="1"/><line x1="140" y1="0" x2="140" y2="155" stroke="rgba(255,255,255,0.04)" stroke-width="1"/><circle cx="74" cy="58" r="12" class="map-pin-ring"/><circle cx="74" cy="58" r="4.5" class="map-pin"/><text x="110" y="143" text-anchor="middle" class="map-label">Orewa Town Centre</text></svg></div><div class="loc-info"><div class="loc-name" data-en="Orewa Library" data-zh="奥雷瓦图书馆">Orewa Library</div><div class="loc-addr">1 Centreway Rd, Orewa, Auckland 0931</div><span class="loc-tag" data-en="$50/hr · In Person" data-zh="每小时$50 · 面授">$50/hr · In Person</span></div></div>
+    <div class="loc-card"><div class="loc-map"><svg viewBox="0 0 220 155" xmlns="http://www.w3.org/2000/svg"><rect width="220" height="155" fill="#1a2f5e"/><rect x="0" y="70" width="220" height="8" class="map-road-h"/><rect x="0" y="44" width="220" height="5" style="fill:rgba(255,255,255,0.05)"/><rect x="104" y="0" width="8" height="155" class="map-road-v"/><rect x="48" y="0" width="5" height="155" style="fill:rgba(255,255,255,0.05)"/><rect x="10" y="10" width="30" height="27" class="map-block" rx="2"/><rect x="55" y="10" width="40" height="27" class="map-block" rx="2"/><rect x="118" y="10" width="82" height="27" class="map-block" rx="2"/><rect x="10" y="83" width="82" height="62" class="map-block" rx="2"/><rect x="118" y="83" width="82" height="62" class="map-block" rx="2"/><line x1="0" y1="30" x2="220" y2="30" stroke="rgba(255,255,255,0.04)" stroke-width="1"/><line x1="0" y1="115" x2="220" y2="115" stroke="rgba(255,255,255,0.04)" stroke-width="1"/><circle cx="112" cy="57" r="12" class="map-pin-ring"/><circle cx="112" cy="57" r="4.5" class="map-pin"/><text x="110" y="143" text-anchor="middle" class="map-label">East Coast Bays Area</text></svg></div><div class="loc-info"><div class="loc-name" data-en="East Coast Bays Library" data-zh="东海岸湾图书馆">East Coast Bays Library</div><div class="loc-addr">Bute Rd, Browns Bay, Auckland 0630</div><span class="loc-tag" data-en="$50/hr · In Person" data-zh="每小时$50 · 面授">$50/hr · In Person</span></div></div>
   </div>
   <div class="home-card" style="margin:24px 32px 0">
     <div class="home-icon">🏠</div>
@@ -632,11 +570,11 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
 <!-- FOOTER -->
 <footer>
   <div>
-    <div class="footer-logo">Shore Academy <span>NZ</span></div>
+    <div class="footer-logo">Shore <span>Academy</span> NZ</div>
     <div class="footer-copy">© 2026 Shore Academy · Auckland, New Zealand</div>
   </div>
   <ul class="footer-links">
-    <li><a href="mailto:info@academytuition.nz">info@shoreacademy.nz</a></li>
+    <li><a href="mailto:info@shoreacademy.nz">info@shoreacademy.nz</a></li>
     <li><a href="#features" data-en="Method" data-zh="教学理念">Method</a></li>
     <li><a href="#pricing" data-en="Pricing" data-zh="价格">Pricing</a></li>
     <li><a href="#locations" data-en="Locations" data-zh="地点">Locations</a></li>
@@ -644,225 +582,80 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
 </footer>
 
 <script>
-// ── CONFIG ──────────────────────────────────────────────────────────────
-const GOOGLE_SHEET_URL = 'https://script.google.com/macros/s/AKfycbwlJCyXaTR607a6KYyfEsJm-ZtQJh_tSflnv09CzIUBNFygqiyhwIlLVFk_csb1DWl4JQ/exec';
+// ─────────────────────────────────────────────────────────────────────────────
+// CONFIGURATION
+// Replace with your deployed Google Apps Script URL.
+// The same URL handles both GET (fetch booked slots) and POST (write new booking).
+// ─────────────────────────────────────────────────────────────────────────────
+const SHEET_URL = 'https://script.google.com/macros/s/AKfycbwzAfD09aHN6zXtktWPSIgYO6oRwYEBPmLv1DoISyJjc5d7Totr39FtuU15_Gfb_AoB4A/exec';
 
-// ── TRANSLATIONS for modal UI strings ───────────────────────────────────
-const T = {
-  en: {
-    badge:        'Reserve a Slot',
-    title:        'Book this session',
-    lblName:      'Full Name',
-    lblEmail:     'Email Address',
-    lblPhone:     'Phone Number',
-    lblYear:      'Year Level',
-    lblSubject:   'Subject',
-    lblFormat:    'Session Format',
-    lblLocation:  'Meeting Location',
-    yearDefault:  'Select year level',
-    subDefault:   'Select subject',
-    fmtDefault:   'Select format',
-    fmtInPerson:  'In-person',
-    fmtMeeting:   'Designated Meeting Place',
-    fmtOnline:    'Online',
-    locDefault:   'Select a library',
-    loc1:         'Massey Library, Albany',
-    loc2:         'Orewa Library',
-    loc3:         'East Coast Bays Library, Browns Bay',
-    disclaimer:   'To encourage proper understanding of local curricula, all courses and lessons are taught in English.',
-    submitBtn:    'Confirm Booking',
-    submitting:   'Submitting…',
-    errorMsg:     'Please fill in all fields.',
-    successTitle: 'Booking received!',
-    successBody:  "We'll confirm your session within 2 hours via email. Check your spam folder if you don't hear from us.",
-  },
-  zh: {
-    badge:        '预约时段',
-    title:        '预约本次课程',
-    lblName:      '全名',
-    lblEmail:     '电子邮件',
-    lblPhone:     '电话号码',
-    lblYear:      '年级',
-    lblSubject:   '科目',
-    lblFormat:    '课程形式',
-    lblLocation:  '授课地点',
-    yearDefault:  '请选择年级',
-    subDefault:   '请选择科目',
-    fmtDefault:   '请选择形式',
-    fmtInPerson:  '面对面上课',
-    fmtMeeting:   '指定会面地点',
-    fmtOnline:    '线上上课',
-    locDefault:   '请选择图书馆',
-    loc1:         '梅西图书馆（奥尔巴尼）',
-    loc2:         '奥雷瓦图书馆',
-    loc3:         '东海岸湾图书馆（布朗斯湾）',
-    disclaimer:   '为促进学生对本地课程的正确理解，所有课程和辅导均以英语授课。',
-    submitBtn:    '确认预约',
-    submitting:   '提交中…',
-    errorMsg:     '请填写所有字段。',
-    successTitle: '预约已收到！',
-    successBody:  '我们将在2小时内通过电子邮件确认您的课程。如未收到，请检查垃圾邮件文件夹。',
-  }
-};
-
-// Subject labels by language
-const SUBJECTS = {
-  en: ['Mathematics (Numeracy)', 'Mathematics (Calculus)', 'English', 'Physics', 'Chemistry', 'SAT Prep'],
-  zh: ['数学（数感）', '数学（微积分）', '英语', '物理', '化学', 'SAT备考']
-};
-const SUBJECT_VALUES = ['Mathematics (Numeracy)', 'Mathematics (Calculus)', 'English', 'Physics', 'Chemistry', 'SAT Prep'];
-
-// ── STATE ────────────────────────────────────────────────────────────────
+// ─── LANGUAGE ───────────────────────────────────────────────────────────────
 let currentLang = 'en';
-let selectedSlotEl = null;
-let selectedSlotInfo = '';
+const T = {
+  en:{badge:'Reserve a Slot',title:'Book this session',lblName:'Full Name',lblEmail:'Email Address',lblPhone:'Phone Number',lblYear:'Year Level',lblSubject:'Subject',lblFormat:'Session Format',lblLocation:'Meeting Location',yearDef:'Select year level',subDef:'Select subject',fmtDef:'Select format',fmtIP:'In-person',fmtMP:'Designated Meeting Place',fmtOL:'Online',locDef:'Select a library',loc1:'Massey Library, Albany',loc2:'Orewa Library',loc3:'East Coast Bays Library, Browns Bay',disclaimer:'To encourage proper understanding of local curricula, all courses and lessons are taught in English.',submit:'Confirm Booking',submitting:'Submitting…',errMsg:'Please fill in all fields.',successTitle:'Booking received!',successBody:"We'll confirm your session within 2 hours via email. Check your spam folder if you don't hear from us."},
+  zh:{badge:'预约时段',title:'预约本次课程',lblName:'全名',lblEmail:'电子邮件',lblPhone:'电话号码',lblYear:'年级',lblSubject:'科目',lblFormat:'课程形式',lblLocation:'授课地点',yearDef:'请选择年级',subDef:'请选择科目',fmtDef:'请选择形式',fmtIP:'面对面上课',fmtMP:'指定会面地点',fmtOL:'线上上课',locDef:'请选择图书馆',loc1:'梅西图书馆（奥尔巴尼）',loc2:'奥雷瓦图书馆',loc3:'东海岸湾图书馆（布朗斯湾）',disclaimer:'为促进学生对本地课程的正确理解，所有课程和辅导均以英语授课。',submit:'确认预约',submitting:'提交中…',errMsg:'请填写所有字段。',successTitle:'预约已收到！',successBody:'我们将在2小时内通过电子邮件确认您的课程。如未收到，请检查垃圾邮件文件夹。'}
+};
+const SUBJECTS_EN = ['Mathematics (Numeracy)','Mathematics (Calculus)','English','Physics','Chemistry','SAT Prep'];
+const SUBJECTS_ZH = ['数学（数感）','数学（微积分）','英语','物理','化学','SAT备考'];
+const SUBJECT_VALS = ['Mathematics (Numeracy)','Mathematics (Calculus)','English','Physics','Chemistry','SAT Prep'];
 
-// ── LANGUAGE TOGGLE ──────────────────────────────────────────────────────
-function toggleLang() {
-  currentLang = currentLang === 'en' ? 'zh' : 'en';
-  // Update all bilingual elements on the page
-  document.querySelectorAll('[data-en][data-zh]').forEach(el => {
-    el.innerHTML = currentLang === 'zh' ? el.dataset.zh : el.dataset.en;
-  });
-  const toggle = document.getElementById('lang-toggle');
-  if (toggle) toggle.textContent = currentLang === 'zh' ? 'English' : '卓越学苑';
+function toggleLang(){
+  currentLang = currentLang==='en'?'zh':'en';
+  document.querySelectorAll('[data-en][data-zh]').forEach(el=>{el.innerHTML=currentLang==='zh'?el.dataset.zh:el.dataset.en});
+  document.getElementById('lang-toggle').textContent = currentLang==='zh'?'English':'卓越学苑';
   document.documentElement.lang = currentLang;
-  // If modal is open, re-render it in the new language
-  if (document.getElementById('bookingModal').classList.contains('open')) {
-    renderModalLang();
+  if(document.getElementById('bookingModal').classList.contains('open')) renderModalLang();
+}
+
+// ─── CALENDAR STATE ──────────────────────────────────────────────────────────
+// bookedSlots = Set of slot keys like "Mon|4" meaning Monday 4am
+const bookedSlots = new Set();
+let calsBuilt = false;
+
+// Encode a slot as a string key
+function slotKey(dayName, hour){ return `${dayName}|${hour}`; }
+
+// ─── FETCH BOOKED SLOTS FROM SHEET ON LOAD ───────────────────────────────────
+async function loadBookedSlots(){
+  if(SHEET_URL === 'https://script.google.com/macros/s/AKfycbwzAfD09aHN6zXtktWPSIgYO6oRwYEBPmLv1DoISyJjc5d7Totr39FtuU15_Gfb_AoB4A/exec'){
+    buildAllCals(); // just build empty calendars
+    return;
   }
-}
-
-// ── MODAL LANGUAGE RENDER ─────────────────────────────────────────────────
-function renderModalLang() {
-  const t = T[currentLang];
-  document.getElementById('m-badge').textContent    = t.badge;
-  document.getElementById('m-title').textContent    = t.title;
-  document.getElementById('m-lbl-name').textContent   = t.lblName;
-  document.getElementById('m-lbl-email').textContent  = t.lblEmail;
-  document.getElementById('m-lbl-phone').textContent  = t.lblPhone;
-  document.getElementById('m-lbl-year').textContent   = t.lblYear;
-  document.getElementById('m-lbl-subject').textContent = t.lblSubject;
-  document.getElementById('m-lbl-format').textContent  = t.lblFormat;
-  document.getElementById('m-lbl-location').textContent = t.lblLocation;
-  document.getElementById('m-disclaimer').textContent  = t.disclaimer;
-  document.getElementById('modalSubmitBtn').textContent = t.submitBtn;
-  document.getElementById('modalError').textContent    = t.errorMsg;
-  document.getElementById('m-success-title').textContent = t.successTitle;
-  document.getElementById('m-success-body').textContent  = t.successBody;
-
-  // Rebuild year select
-  const yr = document.getElementById('bookYear');
-  const yrVal = yr.value;
-  yr.innerHTML = `<option value="">${t.yearDefault}</option>`;
-  ['Year 7','Year 8','Year 9','Year 10','Year 11'].forEach(y => {
-    const o = document.createElement('option');
-    o.value = y;
-    o.textContent = currentLang === 'zh' ? y.replace('Year','').trim() + '年级' : y;
-    yr.appendChild(o);
-  });
-  if (yrVal) yr.value = yrVal;
-
-  // Rebuild subject select
-  const sb = document.getElementById('bookSubject');
-  const sbVal = sb.value;
-  sb.innerHTML = `<option value="">${t.subDefault}</option>`;
-  SUBJECTS[currentLang].forEach((label, i) => {
-    const o = document.createElement('option');
-    o.value = SUBJECT_VALUES[i];
-    o.textContent = label;
-    sb.appendChild(o);
-  });
-  if (sbVal) sb.value = sbVal;
-
-  // Rebuild format select
-  const fmt = document.getElementById('bookFormat');
-  const fmtVal = fmt.value;
-  fmt.innerHTML = `
-    <option value="">${t.fmtDefault}</option>
-    <option value="In-person">${t.fmtInPerson}</option>
-    <option value="Designated Meeting Place">${t.fmtMeeting}</option>
-    <option value="Online">${t.fmtOnline}</option>`;
-  if (fmtVal) { fmt.value = fmtVal; handleFormatChange(); }
-
-  // Rebuild location select
-  const loc = document.getElementById('bookLocation');
-  const locVal = loc.value;
-  loc.innerHTML = `
-    <option value="">${t.locDefault}</option>
-    <option value="Massey Library, Albany">${t.loc1}</option>
-    <option value="Orewa Library">${t.loc2}</option>
-    <option value="East Coast Bays Library, Browns Bay">${t.loc3}</option>`;
-  if (locVal) loc.value = locVal;
-
-  // Slot label stays in English regardless — it's a time/day reference
-  document.getElementById('m-slot').textContent = selectedSlotInfo;
-}
-
-// ── FORMAT CHANGE HANDLER ─────────────────────────────────────────────────
-function handleFormatChange() {
-  const val = document.getElementById('bookFormat').value;
-  const wrap = document.getElementById('locationWrap');
-  wrap.classList.toggle('visible', val === 'Designated Meeting Place');
-}
-
-// ── CALENDAR ──────────────────────────────────────────────────────────────
-function showTab(id, btn) {
-  document.getElementById('tab-weekday').style.display = id === 'weekday' ? '' : 'none';
-  document.getElementById('tab-weekend').style.display = id === 'weekend' ? '' : 'none';
-  document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
-  btn.classList.add('active');
-}
-
-function mulberry32(seed) {
-  return function () {
-    seed |= 0; seed = seed + 0x6D2B79F5 | 0;
-    var t = Math.imul(seed ^ seed >>> 15, 1 | seed);
-    t = t + Math.imul(t ^ t >>> 7, 61 | t) ^ t;
-    return ((t ^ t >>> 14) >>> 0) / 4294967296;
-  };
-}
-
-function generateSlots(days, hours, rate, seed) {
-  const rand = mulberry32(seed);
-  const target = Math.round(days.length * hours.length * rate);
-  const slots = {};
-  days.forEach((d, di) => { slots[di] = {}; hours.forEach((h, hi) => { slots[di][hi] = false; }); });
-  let booked = 0, attempts = 0;
-  while (booked < target && attempts < 8000) {
-    attempts++;
-    const di = Math.floor(rand() * days.length);
-    const len = Math.floor(rand() * 3) + 1;
-    const startHi = Math.floor(rand() * hours.length);
-    for (let k = 0; k < len; k++) {
-      const hi = startHi + k;
-      if (hi < hours.length && !slots[di][hi]) { slots[di][hi] = true; booked++; if (booked >= target) break; }
+  try{
+    const res = await fetch(SHEET_URL + '?action=getSlots', {cache:'no-store'});
+    const data = await res.json();
+    // data.slots = array of slot keys e.g. ["Mon|4","Tue|17"]
+    if(data.slots && Array.isArray(data.slots)){
+      data.slots.forEach(k => bookedSlots.add(k));
     }
-  }
-  return slots;
+  } catch(e){ console.warn('Could not load slots:', e); }
+  buildAllCals();
 }
 
-function buildCal(containerId, days, hours, rate, seed) {
-  const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
-  const slots = generateSlots(days, hours, rate, seed);
+// ─── BUILD CALENDARS ─────────────────────────────────────────────────────────
+const DAY_NAMES = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+
+function buildCal(containerId, days, hours){
   const wrap = document.getElementById(containerId);
   let html = '<div class="cal-header"><div class="cal-time-header"></div><div class="cal-day-cols">';
-  days.forEach(d => html += `<div class="cal-day-name">${dayNames[d]}</div>`);
+  days.forEach(d => html += `<div class="cal-day-name">${DAY_NAMES[d]}</div>`);
   html += '</div></div><div class="cal-body"><div class="cal-time-col-wrap">';
-  hours.forEach(h => {
-    const lbl = h === 12 ? '12pm' : h === 0 ? '12am' : h < 12 ? `${h}am` : `${h - 12}pm`;
+  hours.forEach(h=>{
+    const lbl = h===12?'12pm':h===0?'12am':h<12?`${h}am`:`${h-12}pm`;
     html += `<div class="cal-time-label">${lbl}</div>`;
   });
   html += '</div><div class="cal-day-grid">';
-  days.forEach((d, di) => {
+  days.forEach((d,di)=>{
     html += '<div class="cal-col">';
-    hours.forEach((h, hi) => {
-      const isBooked = slots[di][hi];
-      const lbl = h === 12 ? '12pm' : h === 0 ? '12am' : h < 12 ? `${h}am` : `${h - 12}pm`;
-      const info = `${dayNames[d]} at ${lbl}`;
-      html += isBooked
-        ? `<div class="cal-slot booked"></div>`
-        : `<div class="cal-slot free" onclick="openModal(this,'${info}')"></div>`;
+    hours.forEach((h,hi)=>{
+      const key = slotKey(DAY_NAMES[d], h);
+      const lbl = h===12?'12pm':h===0?'12am':h<12?`${h}am`:`${h-12}pm`;
+      const info = `${DAY_NAMES[d]} at ${lbl}`;
+      if(bookedSlots.has(key)){
+        html += `<div class="cal-slot booked" data-key="${key}"></div>`;
+      } else {
+        html += `<div class="cal-slot free" data-key="${key}" onclick="openModal(this,'${info}','${key}')"></div>`;
+      }
     });
     html += '</div>';
   });
@@ -870,105 +663,150 @@ function buildCal(containerId, days, hours, rate, seed) {
   wrap.innerHTML = html;
 }
 
-buildCal('calMorning',   [0,1,2,3,4], [4,5,6],                            0.30, 0xDEADBEEF);
-buildCal('calAfternoon', [0,1,2,3,4], [16,17,18,19,20,21],                0.30, 0xCAFEBABE);
-buildCal('calWeekend',   [5,6],       Array.from({length:18},(_,i)=>i+4), 0.30, 0xF00DCAFE);
+function buildAllCals(){
+  buildCal('calMorning',   [0,1,2,3,4], [4,5,6]);
+  buildCal('calAfternoon', [0,1,2,3,4], [16,17,18,19,20,21]);
+  buildCal('calWeekend',   [5,6],       Array.from({length:18},(_,i)=>i+4));
+  calsBuilt = true;
+}
 
-// ── MODAL ─────────────────────────────────────────────────────────────────
-function openModal(el, slotInfo) {
-  selectedSlotEl = el;
-  selectedSlotInfo = slotInfo;
-  document.getElementById('modalForm').style.display = '';
-  document.getElementById('modalSuccess').style.display = 'none';
-  document.getElementById('modalError').style.display = 'none';
-  document.getElementById('bookName').value = '';
-  document.getElementById('bookEmail').value = '';
-  document.getElementById('bookPhone').value = '';
-  document.getElementById('bookYear').value = '';
-  document.getElementById('bookSubject').value = '';
-  document.getElementById('bookFormat').value = '';
-  document.getElementById('bookLocation').value = '';
+// Mark a slot as booked in the live DOM (for all 3 cals in case of overlap)
+function markSlotBooked(key){
+  document.querySelectorAll(`.cal-slot[data-key="${key}"]`).forEach(el=>{
+    el.className = 'cal-slot booked';
+    el.onclick = null;
+  });
+}
+
+// ─── TAB SWITCHER ────────────────────────────────────────────────────────────
+function showTab(id,btn){
+  document.getElementById('tab-weekday').style.display=id==='weekday'?'':'none';
+  document.getElementById('tab-weekend').style.display=id==='weekend'?'':'none';
+  document.querySelectorAll('.tab-btn').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ─── MODAL ───────────────────────────────────────────────────────────────────
+let selectedSlotEl = null, selectedSlotInfo = '', selectedSlotKey = '';
+
+function openModal(el, slotInfo, key){
+  selectedSlotEl = el; selectedSlotInfo = slotInfo; selectedSlotKey = key;
+  ['bookName','bookEmail','bookPhone'].forEach(id=>document.getElementById(id).value='');
+  ['bookYear','bookSubject','bookFormat','bookLocation'].forEach(id=>document.getElementById(id).value='');
   document.getElementById('locationWrap').classList.remove('visible');
+  document.getElementById('modalForm').style.display='';
+  document.getElementById('modalSuccess').style.display='none';
+  document.getElementById('modalError').style.display='none';
   renderModalLang();
   document.getElementById('bookingModal').classList.add('open');
 }
 
-function closeModal() {
-  document.getElementById('bookingModal').classList.remove('open');
-  selectedSlotEl = null;
+function closeModal(){ document.getElementById('bookingModal').classList.remove('open'); }
+document.getElementById('bookingModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+
+function handleFormatChange(){
+  const v = document.getElementById('bookFormat').value;
+  document.getElementById('locationWrap').classList.toggle('visible', v==='Designated Meeting Place');
 }
 
-document.getElementById('bookingModal').addEventListener('click', function (e) {
-  if (e.target === this) closeModal();
-});
-
-async function submitBooking() {
-  const name     = document.getElementById('bookName').value.trim();
-  const email    = document.getElementById('bookEmail').value.trim();
-  const phone    = document.getElementById('bookPhone').value.trim();
-  const year     = document.getElementById('bookYear').value;
-  const subject  = document.getElementById('bookSubject').value;
-  const format   = document.getElementById('bookFormat').value;
-  const location = document.getElementById('bookLocation').value;
+function renderModalLang(){
   const t = T[currentLang];
+  document.getElementById('m-badge').textContent    = t.badge;
+  document.getElementById('m-title').textContent    = t.title;
+  document.getElementById('m-lbl-name').textContent  = t.lblName;
+  document.getElementById('m-lbl-email').textContent = t.lblEmail;
+  document.getElementById('m-lbl-phone').textContent = t.lblPhone;
+  document.getElementById('m-lbl-year').textContent  = t.lblYear;
+  document.getElementById('m-lbl-subject').textContent = t.lblSubject;
+  document.getElementById('m-lbl-format').textContent  = t.lblFormat;
+  document.getElementById('m-lbl-location').textContent = t.lblLocation;
+  document.getElementById('m-disclaimer').textContent  = t.disclaimer;
+  document.getElementById('modalSubmitBtn').textContent = t.submit;
+  document.getElementById('m-slot').textContent = selectedSlotInfo;
 
-  const needsLocation = format === 'Designated Meeting Place';
-  if (!name || !email || !phone || !year || !subject || !format || (needsLocation && !location)) {
-    const errEl = document.getElementById('modalError');
-    errEl.textContent = t.errorMsg;
-    errEl.style.display = 'block';
-    return;
+  const yr = document.getElementById('bookYear'), yrV = yr.value;
+  yr.innerHTML = `<option value="">${t.yearDef}</option>`;
+  ['Year 7','Year 8','Year 9','Year 10','Year 11'].forEach(y=>{
+    const o=document.createElement('option'); o.value=y;
+    o.textContent = currentLang==='zh'? y.replace('Year','').trim()+'年级' : y;
+    yr.appendChild(o);
+  }); if(yrV) yr.value=yrV;
+
+  const sb = document.getElementById('bookSubject'), sbV = sb.value;
+  sb.innerHTML = `<option value="">${t.subDef}</option>`;
+  SUBJECTS_EN.forEach((s,i)=>{
+    const o=document.createElement('option'); o.value=SUBJECT_VALS[i];
+    o.textContent = currentLang==='zh'? SUBJECTS_ZH[i] : s;
+    sb.appendChild(o);
+  }); if(sbV) sb.value=sbV;
+
+  const fmt = document.getElementById('bookFormat'), fmtV = fmt.value;
+  fmt.innerHTML = `<option value="">${t.fmtDef}</option><option value="In-person">${t.fmtIP}</option><option value="Designated Meeting Place">${t.fmtMP}</option><option value="Online">${t.fmtOL}</option>`;
+  if(fmtV){ fmt.value=fmtV; handleFormatChange(); }
+
+  const loc = document.getElementById('bookLocation'), locV = loc.value;
+  loc.innerHTML = `<option value="">${t.locDef}</option><option value="Massey Library, Albany">${t.loc1}</option><option value="Orewa Library">${t.loc2}</option><option value="East Coast Bays Library, Browns Bay">${t.loc3}</option>`;
+  if(locV) loc.value=locV;
+}
+
+async function submitBooking(){
+  const t = T[currentLang];
+  const name    = document.getElementById('bookName').value.trim();
+  const email   = document.getElementById('bookEmail').value.trim();
+  const phone   = document.getElementById('bookPhone').value.trim();
+  const year    = document.getElementById('bookYear').value;
+  const subject = document.getElementById('bookSubject').value;
+  const format  = document.getElementById('bookFormat').value;
+  const loc     = document.getElementById('bookLocation').value;
+  const needLoc = format === 'Designated Meeting Place';
+
+  if(!name||!email||!phone||!year||!subject||!format||(needLoc&&!loc)){
+    const e = document.getElementById('modalError');
+    e.textContent = t.errMsg; e.style.display='block'; return;
   }
-
   const btn = document.getElementById('modalSubmitBtn');
-  btn.disabled = true;
-  btn.textContent = t.submitting;
+  btn.disabled=true; btn.textContent=t.submitting;
 
   const payload = {
+    action:'book', slotKey: selectedSlotKey,
     name, email, phone, year, subject, format,
-    location: needsLocation ? location : '—',
+    location: needLoc ? loc : '—',
     slot: selectedSlotInfo,
-    timestamp: new Date().toISOString(),
-    lang: currentLang
+    timestamp: new Date().toISOString(), lang: currentLang
   };
 
-  try {
-    if (GOOGLE_SHEET_URL !== 'https://script.google.com/macros/s/AKfycbwlJCyXaTR607a6KYyfEsJm-ZtQJh_tSflnv09CzIUBNFygqiyhwIlLVFk_csb1DWl4JQ/execE') {
-      await fetch(GOOGLE_SHEET_URL, {
-        method: 'POST', mode: 'no-cors',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      });
+  try{
+    if(SHEET_URL !== 'https://script.google.com/macros/s/AKfycbwzAfD09aHN6zXtktWPSIgYO6oRwYEBPmLv1DoISyJjc5d7Totr39FtuU15_Gfb_AoB4A/exec'){
+      await fetch(SHEET_URL, {method:'POST', mode:'no-cors',
+        headers:{'Content-Type':'application/json'}, body:JSON.stringify(payload)});
     }
-    if (selectedSlotEl) {
-      selectedSlotEl.classList.replace('free', 'pending');
-      selectedSlotEl.onclick = null;
-    }
-    document.getElementById('modalForm').style.display = 'none';
+    // Mark booked locally immediately for this user
+    bookedSlots.add(selectedSlotKey);
+    markSlotBooked(selectedSlotKey);
+
+    document.getElementById('modalForm').style.display='none';
     document.getElementById('m-success-title').textContent = t.successTitle;
     document.getElementById('m-success-body').textContent  = t.successBody;
-    document.getElementById('modalSuccess').style.display = 'block';
+    document.getElementById('modalSuccess').style.display='block';
     setTimeout(closeModal, 3200);
-  } catch (err) {
-    btn.disabled = false;
-    btn.textContent = t.submitBtn;
-    const errEl = document.getElementById('modalError');
-    errEl.textContent = 'Network error — please email us directly.';
-    errEl.style.display = 'block';
+  } catch(err){
+    btn.disabled=false; btn.textContent=t.submit;
+    const e = document.getElementById('modalError');
+    e.textContent='Network error — please email us directly.'; e.style.display='block';
   }
 }
 
-// ── SCROLL FADE ───────────────────────────────────────────────────────────
-const observer = new IntersectionObserver(entries => {
-  entries.forEach(e => {
-    if (e.isIntersecting) { e.target.style.opacity = '1'; e.target.style.transform = 'translateY(0)'; }
-  });
-}, { threshold: 0.1 });
-document.querySelectorAll('.feat-card,.price-card,.tutee-card,.loc-card,.review-card').forEach(el => {
-  el.style.opacity = '0'; el.style.transform = 'translateY(16px)';
-  el.style.transition = 'opacity .5s ease, transform .5s ease';
-  observer.observe(el);
+// ─── SCROLL FADE ──────────────────────────────────────────────────────────────
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)';}});
+},{threshold:0.1});
+document.querySelectorAll('.feat-card,.price-card,.tutee-card,.loc-card,.review-card').forEach(el=>{
+  el.style.opacity='0';el.style.transform='translateY(16px)';el.style.transition='opacity .5s ease,transform .5s ease';
+  obs.observe(el);
 });
+
+// ─── BOOT ─────────────────────────────────────────────────────────────────────
+loadBookedSlots();
 </script>
 </body>
 </html>
