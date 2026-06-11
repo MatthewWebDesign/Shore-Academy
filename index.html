@@ -166,7 +166,7 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(11,28,61,0.9
 /* TUTORS */
 #tutors{background:var(--cream);padding:80px 32px;scroll-margin-top:60px}
 .tutors-inner{max-width:900px;margin:0 auto}
-.tutee-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(252px,1fr));gap:28px}
+.tutee-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
 .tutee-card{background:var(--white);border:1px solid var(--border);border-radius:16px;overflow:hidden}
 .tutee-img{height:260px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden;background:#1a2f5e}
 .tutee-img img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
@@ -188,8 +188,8 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(11,28,61,0.9
 .locations-inner{max-width:900px;margin:0 auto}
 .loc-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:22px}
 .loc-card{background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:14px;overflow:hidden}
-.loc-map{height:155px;background:#1a2f5e;overflow:hidden}
-.loc-map svg{width:100%;height:100%}
+.loc-map{height:200px;overflow:hidden;border-radius:0}
+.loc-map iframe{width:100%;height:100%;border:0;display:block}
 .loc-info{padding:20px}
 .loc-name{font-weight:700;font-size:15px;color:#fff;margin-bottom:4px}
 .loc-addr{font-size:12px;color:rgba(255,255,255,0.4);margin-bottom:14px;line-height:1.55}
@@ -215,10 +215,49 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
 .map-pin{fill:#C9A84C}
 .map-label{fill:rgba(255,255,255,0.3);font-size:9px;font-family:'Outfit',sans-serif}
 
+/* GALLERY MODAL */
+.gallery-overlay{display:none;position:fixed;inset:0;background:rgba(5,12,30,0.96);z-index:300;flex-direction:column}
+.gallery-overlay.open{display:flex}
+.gallery-header{display:flex;align-items:center;justify-content:space-between;padding:20px 32px;flex-shrink:0;border-bottom:1px solid rgba(255,255,255,0.08)}
+.gallery-header-title{font-family:'DM Serif Display',serif;font-size:22px;color:#fff}
+.gallery-header-sub{font-size:13px;color:rgba(255,255,255,0.4);margin-top:2px}
+.gallery-close-btn{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:#fff;border-radius:8px;padding:8px 18px;font-size:13px;font-family:'Outfit',sans-serif;cursor:pointer}
+.gallery-close-btn:hover{background:rgba(255,255,255,0.15)}
+.gallery-body{flex:1;overflow:hidden;padding:24px 32px;display:flex;flex-direction:column;gap:16px}
+.gallery-row{display:flex;gap:12px;will-change:transform}
+.gallery-row.row-right{animation:scrollRight 40s linear infinite}
+.gallery-row.row-left{animation:scrollLeft 36s linear infinite}
+.gallery-row.row-right-slow{animation:scrollRight 52s linear infinite}
+@keyframes scrollRight{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes scrollLeft{from{transform:translateX(-50%)}to{transform:translateX(0)}}
+.gallery-row:hover{animation-play-state:paused}
+.gallery-item{height:180px;min-width:260px;border-radius:12px;overflow:hidden;flex-shrink:0;background:var(--navy2);border:1px solid rgba(255,255,255,0.08);position:relative}
+.gallery-item img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s}
+.gallery-item:hover img{transform:scale(1.04)}
+.gallery-placeholder{width:100%;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;background:linear-gradient(135deg,rgba(201,168,76,0.06),rgba(15,36,81,0.8))}
+.gallery-placeholder-icon{font-size:28px;opacity:.4}
+.gallery-placeholder-lbl{font-size:11px;color:rgba(255,255,255,0.25);letter-spacing:1px;text-transform:uppercase}
+/* tutor image fallback */
+.tutee-img img{width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+.tutee-img .img-fallback{font-size:80px;position:absolute;inset:0;display:flex;align-items:center;justify-content:center}
+.tutee-img::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,transparent 55%,rgba(11,28,61,0.7));pointer-events:none}
+
 #features,#pricing,#tutors,#locations{scroll-margin-top:60px}
 </style>
 </head>
 <body>
+
+<!-- GALLERY MODAL -->
+<div class="gallery-overlay" id="galleryModal">
+  <div class="gallery-header">
+    <div>
+      <div class="gallery-header-title">Shore Academy — Gallery</div>
+      <div class="gallery-header-sub">Life inside our sessions and community</div>
+    </div>
+    <button class="gallery-close-btn" onclick="closeGallery()">✕ Close</button>
+  </div>
+  <div class="gallery-body" id="galleryBody"></div>
+</div>
 
 <!-- BOOKING MODAL -->
 <div class="modal-overlay" id="bookingModal">
@@ -296,12 +335,12 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
 <nav>
   <div class="nav-logo">Shore <span>Academy</span></div>
   <ul class="nav-links">
-    <li><a href="#features" data-en="Method" data-zh="教学理念">Method</a></li>
-    <li><a href="#pricing" data-en="Pricing" data-zh="价格">Pricing</a></li>
-    <li><a href="#tutors" data-en="Tutors" data-zh="导师">Tutors</a></li>
-    <li><a href="#locations" data-en="Locations" data-zh="地点">Locations</a></li>
+    <li><a href="#features">Method</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#tutors">Tutors</a></li>
+    <li><a href="#locations">Locations</a></li>
   </ul>
-  <a class="nav-cta" href="#pricing" data-en="Book Now" data-zh="立即预约">Book Now</a>
+  <a class="nav-cta" href="#pricing">Book Now</a>
 </nav>
 
 <!-- HERO -->
@@ -311,71 +350,71 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
     <span class="hf">√</span><span class="hf">≡</span><span class="hf">∂</span>
     <span class="hf">λ</span><span class="hf">∞</span>
   </div>
-  <div class="hero-badge" data-en="North Shore · Est. 2026" data-zh="北岸区 · 创立于2026年">North Shore · Est. 2026</div>
-  <h1 class="hero-title" data-en="Mastery Before <em>Marks.</em>" data-zh="真正掌握，<em>成绩自来。</em>">Mastery Before <em>Marks.</em></h1>
-  <p class="hero-sub" data-en='Premium one-on-one academic tutoring tailored to students who demand genuine excellence and <strong style="color:rgba(255,255,255,0.85)">deep understanding</strong>.' data-zh='专为追求卓越的学生量身定制的<strong style="color:rgba(255,255,255,0.85)">一对一精英学术辅导</strong>，注重真正的深度理解。'>Premium one-on-one academic tutoring tailored to students who demand genuine excellence and <strong style="color:rgba(255,255,255,0.85)">deep understanding</strong>.</p>
+  <div class="hero-badge">North Shore · Est. 2026</div>
+  <h1 class="hero-title">Mastery Before <em>Marks.</em></h1>
+  <p class="hero-sub">Premium one-on-one academic tutoring tailored to students who demand genuine excellence and <strong style="color:rgba(255,255,255,0.85)">deep understanding</strong>.</p>
   <div class="hero-cta">
-    <a class="btn-gold" href="#pricing" data-en="Book a Session" data-zh="预约课程">Book a Session</a>
-    <a class="btn-ghost" href="#tutors" data-en="Meet Our Tutors" data-zh="认识我们的导师">Meet Our Tutors</a>
+    <a class="btn-gold" href="#pricing">Book a Session</a>
+    <a class="btn-ghost" href="#tutors">Meet Our Tutors</a>
   </div>
 </section>
 
 <!-- SUBJECT STRIP (static) -->
 <div class="subject-strip">
-  <div class="subject-pill" data-en='<span class="pill-dot"></span>Mathematics (Numeracy)' data-zh='<span class="pill-dot"></span>数学（数感）'><span class="pill-dot"></span>Mathematics (Numeracy)</div>
-  <div class="subject-pill" data-en='<span class="pill-dot"></span>Mathematics (Calculus)' data-zh='<span class="pill-dot"></span>数学（微积分）'><span class="pill-dot"></span>Mathematics (Calculus)</div>
-  <div class="subject-pill" data-en='<span class="pill-dot"></span>English' data-zh='<span class="pill-dot"></span>英语'><span class="pill-dot"></span>English</div>
-  <div class="subject-pill" data-en='<span class="pill-dot"></span>Physics' data-zh='<span class="pill-dot"></span>物理'><span class="pill-dot"></span>Physics</div>
-  <div class="subject-pill" data-en='<span class="pill-dot"></span>Chemistry' data-zh='<span class="pill-dot"></span>化学'><span class="pill-dot"></span>Chemistry</div>
-  <div class="subject-pill" data-en='<span class="pill-dot"></span>SAT Prep' data-zh='<span class="pill-dot"></span>SAT备考'><span class="pill-dot"></span>SAT Prep</div>
+  <div class="subject-pill"><span class="pill-dot"></span>Mathematics (Numeracy)</div>
+  <div class="subject-pill"><span class="pill-dot"></span>Mathematics (Calculus)</div>
+  <div class="subject-pill"><span class="pill-dot"></span>English</div>
+  <div class="subject-pill"><span class="pill-dot"></span>Physics</div>
+  <div class="subject-pill"><span class="pill-dot"></span>Chemistry</div>
+  <div class="subject-pill"><span class="pill-dot"></span>SAT Prep</div>
 </div>
 
 <!-- STATS -->
 <div id="stats">
-  <div class="stat-item"><div class="stat-num">41</div><div class="stat-label" data-en="Active Tutees" data-zh="在读学生">Active Tutees</div></div>
-  <div class="stat-item"><div class="stat-num">4am–10pm</div><div class="stat-label" data-en="Available Daily" data-zh="每日可预约">Available Daily</div></div>
-  <div class="stat-item"><div class="stat-num">3</div><div class="stat-label" data-en="Tutoring Venues" data-zh="辅导地点">Tutoring Venues</div></div>
-  <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label" data-en="Concept-First Method" data-zh="概念优先教学法">Concept-First Method</div></div>
+  <div class="stat-item"><div class="stat-num">41</div><div class="stat-label">Active Tutees</div></div>
+  <div class="stat-item"><div class="stat-num">4am–10pm</div><div class="stat-label">Available Daily</div></div>
+  <div class="stat-item"><div class="stat-num">3</div><div class="stat-label">Tutoring Venues</div></div>
+  <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">Concept-First Method</div></div>
 </div>
 
 <!-- FEATURES -->
 <section id="features">
 <div class="section">
-  <div class="section-label" data-en="What Sets Us Apart" data-zh="我们的独特之处">What Sets Us Apart</div>
-  <h2 class="section-title" data-en="Built on <em style='font-style:italic'>fundamentals,</em><br>not formulas." data-zh="以<em style='font-style:italic'>基础概念</em><br>为本，而非死记硬背。">Built on <em style="font-style:italic">fundamentals,</em><br>not formulas.</h2>
-  <p class="section-sub" data-en="Every session is structured around genuine understanding. We don't teach for a test — we seek deep understanding." data-zh="每节课都以真正的理解为核心。我们不是为了应付考试而教学，而是追求深度的知识掌握。">Every session is structured around genuine understanding. We don't teach for a test — we seek deep understanding.</p>
+  <div class="section-label">What Sets Us Apart</div>
+  <h2 class="section-title">Built on <em style="font-style:italic">fundamentals,</em><br>not formulas.</h2>
+  <p class="section-sub">Every session is structured around genuine understanding. We don't teach for a test — we seek deep understanding.</p>
   <div class="feat-grid">
     <div class="feat-card">
       <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
-      <div class="feat-big">41</div><div class="feat-big-sub" data-en="tutees &amp; growing" data-zh="学生且持续增长">tutees &amp; growing</div>
-      <div class="feat-name" style="margin-top:14px" data-en="Trusted Widely" data-zh="广受信赖">Trusted Widely</div>
-      <div class="feat-desc" data-en="A growing community of families across the North Shore who've seen real results." data-zh="北岸地区越来越多的家庭选择我们，并看到了切实的成果。">A growing community of families across the North Shore who've seen real results.</div>
+      <div class="feat-big">41</div><div class="feat-big-sub">tutees &amp; growing</div>
+      <div class="feat-name" style="margin-top:14px">Trusted Widely</div>
+      <div class="feat-desc">A growing community of families across the North Shore who've seen real results.</div>
     </div>
     <div class="feat-card">
       <div class="feat-icon"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
-      <div class="feat-big">18h</div><div class="feat-big-sub" data-en="daily availability" data-zh="每日可预约时段">daily availability</div>
-      <div class="feat-name" style="margin-top:14px" data-en="4am to 10pm" data-zh="凌晨4时至晚上10时">4am to 10pm</div>
-      <div class="feat-desc" data-en="Flexible enough for early risers and students finishing school late." data-zh="灵活的时间安排，适合早起学生和放学较晚的学生。">Flexible enough for early risers and students finishing school late.</div>
+      <div class="feat-big">18h</div><div class="feat-big-sub">daily availability</div>
+      <div class="feat-name" style="margin-top:14px">4am to 10pm</div>
+      <div class="feat-desc">Flexible enough for early risers and students finishing school late.</div>
     </div>
     <div class="feat-card">
       <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/></svg></div>
-      <div class="feat-name" data-en="Concept-First Method" data-zh="概念优先教学法">Concept-First Method</div>
-      <div class="feat-desc" data-en="We trace every technique back to its origin. Students who understand why never forget how." data-zh="我们追溯每一种方法的根源。理解了"为什么"的学生，永远不会忘记"如何做"。">We trace every technique back to its origin. Students who understand why never forget how.</div>
+      <div class="feat-name">Concept-First Method</div>
+      <div class="feat-desc">We trace every technique back to its origin. Students who understand why never forget how.</div>
     </div>
     <div class="feat-card">
       <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
-      <div class="feat-name" data-en="Ongoing Communication" data-zh="持续沟通反馈">Ongoing Communication</div>
-      <div class="feat-desc" data-en="Parents receive session summaries and progress notes after every lesson." data-zh="家长在每节课后都会收到课程总结和进度说明。">Parents receive session summaries and progress notes after every lesson.</div>
+      <div class="feat-name">Ongoing Communication</div>
+      <div class="feat-desc">Parents receive session summaries and progress notes after every lesson.</div>
     </div>
     <div class="feat-card">
       <div class="feat-icon"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></div>
-      <div class="feat-name" data-en="Small Cohorts Only" data-zh="小班制教学">Small Cohorts Only</div>
-      <div class="feat-desc" data-en="We cap group sessions at 3. Every student gets real attention every time." data-zh="小组课程最多3人。每位学生每次都能得到真正的关注。">We cap group sessions at 3. Every student gets real attention every time.</div>
+      <div class="feat-name">Small Cohorts Only</div>
+      <div class="feat-desc">We cap group sessions at 3. Every student gets real attention every time.</div>
     </div>
     <div class="feat-card">
       <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5z"/><path d="M2 17l10 5 10-5M2 12l10 5 10-5"/></svg></div>
-      <div class="feat-name" data-en="Years 7–11 Specialists" data-zh="7至11年级专家">Years 7–11 Specialists</div>
-      <div class="feat-desc" data-en="We focus on the critical intermediate and junior secondary years where strong foundations are built." data-zh="我们专注于7至11年级这一关键阶段，在此建立坚实的学术基础。">We focus on the critical intermediate and junior secondary years where strong foundations are built.</div>
+      <div class="feat-name">Years 7–11 Specialists</div>
+      <div class="feat-desc">We focus on the critical intermediate and junior secondary years where strong foundations are built.</div>
     </div>
   </div>
 </div>
@@ -385,66 +424,66 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
 <section id="pricing">
 <div class="pricing-inner" style="padding:80px 0">
   <div style="padding:0 32px">
-    <div class="section-label" style="color:var(--gold2)" data-en="Investment" data-zh="收费方案">Investment</div>
-    <h2 class="section-title" style="color:#fff" data-en="Simple, transparent pricing." data-zh="简单透明的收费标准。">Simple, transparent pricing.</h2>
-    <p class="section-sub" style="color:rgba(255,255,255,0.45)" data-en="Choose the format that suits you. All sessions are 60 minutes unless arranged otherwise." data-zh="选择最适合您的方式。所有课程均为60分钟，如有特殊安排可协商。">Choose the format that suits you. All sessions are 60 minutes unless arranged otherwise.</p>
+    <div class="section-label" style="color:var(--gold2)">Investment</div>
+    <h2 class="section-title" style="color:#fff">Simple, transparent pricing.</h2>
+    <p class="section-sub" style="color:rgba(255,255,255,0.45)">Choose the format that suits you. All sessions are 60 minutes unless arranged otherwise.</p>
   </div>
   <div class="pricing-grid" style="padding:0 32px">
     <div class="price-card">
       <div class="price-icon">💻</div>
-      <div class="price-type" data-en="Online" data-zh="线上课程">Online</div>
+      <div class="price-type">Online</div>
       <div class="price-amount">$40</div>
-      <div class="price-unit" data-en="per hour" data-zh="每小时">per hour</div>
-      <div class="price-desc" data-en="Via Zoom or Google Meet. Shared whiteboard included." data-zh="通过Zoom或Google Meet上课，含共享白板。">Via Zoom or Google Meet. Shared whiteboard included.</div>
+      <div class="price-unit">per hour</div>
+      <div class="price-desc">Via Zoom or Google Meet. Shared whiteboard included.</div>
     </div>
     <div class="price-card featured">
       <div class="price-icon">🏠</div>
-      <div class="price-type" data-en="At Your Home" data-zh="上门辅导">At Your Home</div>
+      <div class="price-type">At Your Home</div>
       <div class="price-amount">$60</div>
-      <div class="price-unit" data-en="per hour" data-zh="每小时">per hour</div>
-      <div class="price-desc" data-en="We come to you. Comfort of your own environment." data-zh="我们上门服务，让您在舒适的家中学习。">We come to you. Comfort of your own environment.</div>
+      <div class="price-unit">per hour</div>
+      <div class="price-desc">We come to you. Comfort of your own environment.</div>
     </div>
     <div class="price-card">
       <div class="price-icon">📚</div>
-      <div class="price-type" data-en="At Library" data-zh="图书馆授课">At Library</div>
+      <div class="price-type">At Library</div>
       <div class="price-amount">$50</div>
-      <div class="price-unit" data-en="per hour" data-zh="每小时">per hour</div>
-      <div class="price-desc" data-en="Massey, Orewa, or East Coast Bays Library. In person." data-zh="梅西、奥雷瓦或东海岸湾图书馆，面对面授课。">Massey, Orewa, or East Coast Bays Library. In person.</div>
+      <div class="price-unit">per hour</div>
+      <div class="price-desc">Massey, Orewa, or East Coast Bays Library. In person.</div>
     </div>
     <div class="price-card sat">
       <div class="price-icon">🎯</div>
-      <div class="price-type" data-en="SAT Prep" data-zh="SAT备考">SAT Prep</div>
+      <div class="price-type">SAT Prep</div>
       <div class="price-amount">$90</div>
-      <div class="price-unit" data-en="per hour · in person" data-zh="每小时 · 面对面">per hour · in person</div>
-      <div class="price-desc" data-en="Intensive SAT coaching covering Maths and Reading. Proven strategies for high scorers." data-zh="涵盖数学与阅读的密集SAT辅导，专注高分策略。">Intensive SAT coaching covering Maths and Reading. Proven strategies for high scorers.</div>
+      <div class="price-unit">per hour · in person</div>
+      <div class="price-desc">Intensive SAT coaching covering Maths and Reading. Proven strategies for high scorers.</div>
     </div>
   </div>
 
   <!-- CALENDAR -->
   <div style="padding:0 32px;margin-top:48px">
-    <div class="cal-section-label" data-en="Availability — This Week" data-zh="本周预约情况">Availability — This Week</div>
-    <h3 class="cal-section-title" data-en="Book a Session" data-zh="预约课程">Book a Session</h3>
-    <p class="cal-section-sub" data-en="Click an available slot to reserve it." data-zh="点击空闲时段进行预约。">Click an available slot to reserve it.</p>
+    <div class="cal-section-label">Availability — This Week</div>
+    <h3 class="cal-section-title">Book a Session</h3>
+    <p class="cal-section-sub">Click an available slot to reserve it.</p>
     <div class="tab-row">
-      <button class="tab-btn active" onclick="showTab('weekday',this)" data-en="Weekdays" data-zh="工作日">Weekdays</button>
-      <button class="tab-btn" onclick="showTab('weekend',this)" data-en="Weekend" data-zh="周末">Weekend</button>
+      <button class="tab-btn active" onclick="showTab('weekday',this)">Weekdays</button>
+      <button class="tab-btn" onclick="showTab('weekend',this)">Weekend</button>
     </div>
     <div id="tab-weekday">
-      <div class="section-divider"><span class="divider-label"><span data-en="🌅 Early Morning · 4am – 7am" data-zh="🌅 清晨时段 · 凌晨4时–7时">🌅 Early Morning · 4am – 7am</span></span><div class="divider-line"></div></div>
+      <div class="section-divider"><span class="divider-label"><span>🌅 Early Morning · 4am – 7am</span></span><div class="divider-line"></div></div>
       <div class="cal-wrap" id="calMorning"></div>
-      <div class="section-divider" style="margin-top:20px"><span class="divider-label"><span data-en="☀️ Afternoon &amp; Evening · 4pm – 10pm" data-zh="☀️ 下午及晚间 · 下午4时–晚上10时">☀️ Afternoon &amp; Evening · 4pm – 10pm</span></span><div class="divider-line"></div></div>
+      <div class="section-divider" style="margin-top:20px"><span class="divider-label"><span>☀️ Afternoon &amp; Evening · 4pm – 10pm</span></span><div class="divider-line"></div></div>
       <div class="cal-wrap" id="calAfternoon"></div>
       <div class="leg">
-        <span><span class="leg-dot" style="background:rgba(201,168,76,0.38)"></span><span data-en="Booked" data-zh="已预约">Booked</span></span>
-        <span><span class="leg-dot" style="background:rgba(255,255,255,0.06)"></span><span data-en="Available" data-zh="可预约">Available</span></span>
+        <span><span class="leg-dot" style="background:rgba(201,168,76,0.38)"></span><span>Booked</span></span>
+        <span><span class="leg-dot" style="background:rgba(255,255,255,0.06)"></span><span>Available</span></span>
       </div>
     </div>
     <div id="tab-weekend" style="display:none">
-      <div class="section-divider"><span class="divider-label"><span data-en="Weekend · 4am – 10pm" data-zh="周末 · 凌晨4时–晚上10时">Weekend · 4am – 10pm</span></span><div class="divider-line"></div></div>
+      <div class="section-divider"><span class="divider-label"><span>Weekend · 4am – 10pm</span></span><div class="divider-line"></div></div>
       <div class="cal-wrap" id="calWeekend"></div>
       <div class="leg">
-        <span><span class="leg-dot" style="background:rgba(201,168,76,0.38)"></span><span data-en="Booked" data-zh="已预约">Booked</span></span>
-        <span><span class="leg-dot" style="background:rgba(255,255,255,0.06)"></span><span data-en="Available" data-zh="可预约">Available</span></span>
+        <span><span class="leg-dot" style="background:rgba(201,168,76,0.38)"></span><span>Booked</span></span>
+        <span><span class="leg-dot" style="background:rgba(255,255,255,0.06)"></span><span>Available</span></span>
       </div>
     </div>
   </div>
@@ -454,17 +493,17 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
 <!-- REVIEWS -->
 <section id="reviews">
   <div class="section" style="padding-bottom:28px">
-    <div class="section-label" data-en="Testimonials" data-zh="家长与学生评价">Testimonials</div>
-    <h2 class="section-title" data-en="What families say." data-zh="家长与学生怎么说。">What families say.</h2>
+    <div class="section-label">Testimonials</div>
+    <h2 class="section-title">What families say.</h2>
   </div>
   <div class="review-track">
-    <div class="review-card"><div class="stars">★★★★★</div><div class="review-text" data-en='"My daughter went from Merit to Excellence in Mathematics within one term. The patience and method are exceptional."' data-zh='"我女儿在一个学期内从良好进步到了数学优秀。导师的耐心和教学方法都非常出色。"'>"My daughter went from Merit to Excellence in Mathematics within one term. The patience and method are exceptional."</div><div class="reviewer-name">Jennifer L.</div><div class="reviewer-sub" data-en="Parent · Northcross" data-zh="家长 · Northcross">Parent · Northcross</div></div>
-    <div class="review-card"><div class="stars">★★★★★</div><div class="review-text" data-en='"Finally, a tutor who doesn&apos;t just give the answers. My son actually understands the material now — something school never achieved."' data-zh='"终于找到了一位不只是给答案的导师。我儿子现在真正理解了所学内容——这是学校从未做到的。"'>"Finally, a tutor who doesn't just give the answers. My son actually understands the material now — something school never achieved."</div><div class="reviewer-name">David K.</div><div class="reviewer-sub" data-en="Parent · Torbay" data-zh="家长 · Torbay">Parent · Torbay</div></div>
-    <div class="review-card"><div class="stars">★★★★★</div><div class="review-text" data-en='"Incredible depth of knowledge. My son went from struggling in Year 9 Maths to being near the top of his class."' data-zh='"知识深度令人叹服。我儿子从9年级数学困难，进步到接近班级前列。"'>"Incredible depth of knowledge. My son went from struggling in Year 9 Maths to being near the top of his class."</div><div class="reviewer-name">Min-Ji P.</div><div class="reviewer-sub" data-en="Parent · Long Bay" data-zh="家长 · Long Bay">Parent · Long Bay</div></div>
-    <div class="review-card"><div class="stars">★★★★☆</div><div class="review-text" data-en='"Incredibly flexible scheduling — early morning slots have been a lifesaver for us. Genuine care for each student."' data-zh='"时间安排非常灵活——清晨时段对我们来说非常实用。导师真心关心每位学生。"'>"Incredibly flexible scheduling — early morning slots have been a lifesaver for us. Genuine care for each student."</div><div class="reviewer-name">Sarah T.</div><div class="reviewer-sub" data-en="Parent · Browns Bay" data-zh="家长 · Browns Bay">Parent · Browns Bay</div></div>
-    <div class="review-card"><div class="stars">★★★★★</div><div class="review-text" data-en='"The concept-first approach made me realise how shallow my understanding was. Now I can solve problems I&apos;ve never seen before."' data-zh='"概念优先的教学方式让我意识到自己之前理解有多浅薄。现在我能解决从未见过的题目了。"'>"The concept-first approach made me realise how shallow my understanding was. Now I can solve problems I've never seen before."</div><div class="reviewer-name">James C.</div><div class="reviewer-sub" data-en="Student · Rangitoto College" data-zh="学生 · Rangitoto College">Student · Rangitoto College</div></div>
-    <div class="review-card"><div class="stars">★★★★★</div><div class="review-text" data-en='"Worth every dollar. My twins both improved significantly. The library sessions are well organised and productive."' data-zh='"物超所值。我的双胞胎都有了显著进步。图书馆课程组织有序、效率很高。"'>"Worth every dollar. My twins both improved significantly. The library sessions are well organised and productive."</div><div class="reviewer-name">Mei W.</div><div class="reviewer-sub" data-en="Parent · Mairangi Bay" data-zh="家长 · Mairangi Bay">Parent · Mairangi Bay</div></div>
-    <div class="review-card"><div class="stars">★★★★★</div><div class="review-text" data-en='"Our son went from struggling in Year 10 to being one of the top students in his year. The turnaround was remarkable."' data-zh='"我们的儿子从10年级的困难生成长为年级优秀学生。这种进步令人印象深刻。"'>"Our son went from struggling in Year 10 to being one of the top students in his year. The turnaround was remarkable."</div><div class="reviewer-name">Robert S.</div><div class="reviewer-sub" data-en="Parent · Ōrewa" data-zh="家长 · Ōrewa">Parent · Ōrewa</div></div>
+    <div class="review-card"><div class="stars">★★★★★</div><div class="review-text">"My daughter went from Merit to Excellence in Mathematics within one term. The patience and method are exceptional."</div><div class="reviewer-name">Jennifer L.</div><div class="reviewer-sub">Parent · Northcross</div></div>
+    <div class="review-card"><div class="stars">★★★★★</div><div class="review-text">"Finally, a tutor who doesn't just give the answers. My son actually understands the material now — something school never achieved."</div><div class="reviewer-name">David K.</div><div class="reviewer-sub">Parent · Torbay</div></div>
+    <div class="review-card"><div class="stars">★★★★★</div><div class="review-text">"Incredible depth of knowledge. My son went from struggling in Year 9 Maths to being near the top of his class."</div><div class="reviewer-name">Min-Ji P.</div><div class="reviewer-sub">Parent · Long Bay</div></div>
+    <div class="review-card"><div class="stars">★★★★☆</div><div class="review-text">"Incredibly flexible scheduling — early morning slots have been a lifesaver for us. Genuine care for each student."</div><div class="reviewer-name">Sarah T.</div><div class="reviewer-sub">Parent · Browns Bay</div></div>
+    <div class="review-card"><div class="stars">★★★★★</div><div class="review-text">"The concept-first approach made me realise how shallow my understanding was. Now I can solve problems I've never seen before."</div><div class="reviewer-name">James C.</div><div class="reviewer-sub">Student · Rangitoto College</div></div>
+    <div class="review-card"><div class="stars">★★★★★</div><div class="review-text">"Worth every dollar. My twins both improved significantly. The library sessions are well organised and productive."</div><div class="reviewer-name">Mei W.</div><div class="reviewer-sub">Parent · Mairangi Bay</div></div>
+    <div class="review-card"><div class="stars">★★★★★</div><div class="review-text">"Our son went from struggling in Year 10 to being one of the top students in his year. The turnaround was remarkable."</div><div class="reviewer-name">Robert S.</div><div class="reviewer-sub">Parent · Ōrewa</div></div>
   </div>
 </section>
 
@@ -472,9 +511,9 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
 <section id="tutors">
 <div class="tutors-inner" style="padding:80px 0">
   <div style="padding:0 32px;margin-bottom:40px">
-    <div class="section-label" data-en="Our Tutors" data-zh="我们的导师">Our Tutors</div>
-    <h2 class="section-title" data-en="The people behind our results." data-zh="成绩背后的导师团队。">The people behind our results.</h2>
-    <p class="section-sub" data-en="Our tutors are top-performing students and graduates who know exactly what it takes to reach the top of a cohort." data-zh="我们的导师均为顶尖学生和毕业生，深知如何帮助学生跻身年级前列。">Our tutors are top-performing students and graduates who know exactly what it takes to reach the top of a cohort.</p>
+    <div class="section-label">Our Team</div>
+    <h2 class="section-title">Tutors in your area.</h2>
+    <p class="section-sub">Top-performing students from Long Bay College, right here on the North Shore — they know the local curriculum inside out.</p>
   </div>
   <div class="tutee-grid" style="padding:0 32px">
 
@@ -483,63 +522,42 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
       <div class="tutee-img" style="background:linear-gradient(135deg,#1a3a6b 0%,#0d2240 100%)">
         <img src="images/dangelo.jpg" alt="D'Angelo Maclaren" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="img-fallback" style="display:none">👩‍💻</div>
-        <div class="tutee-rank"><span class="tutee-rank-badge" data-en="Top 0.5% Student" data-zh="前0.5%学生">Top 0.5% Student</span></div>
+        <div class="tutee-rank"><span class="tutee-rank-badge">Top 0.5% Student</span></div>
       </div>
       <div class="tutee-body">
         <div class="tutee-name">D'Angelo Maclaren</div>
-        <div class="tutee-school" data-en="at Long Bay College" data-zh="就读于Long Bay College">at Long Bay College</div>
-        <div class="tutee-subjects" data-en="Specialises in <strong>Calculus</strong>, <strong>English</strong>, and <strong>Chemistry</strong>" data-zh="专攻<strong>微积分</strong>、<strong>英语</strong>和<strong>化学</strong>">Specialises in <strong>Calculus</strong>, <strong>English</strong>, and <strong>Chemistry</strong></div>
+        <div class="tutee-school">at Long Bay College</div>
+        <div class="tutee-subjects">Specialises in <strong>Calculus</strong>, <strong>English</strong>, and <strong>Chemistry</strong></div>
         <div class="tutee-honours">
-          <div class="honour-title" data-en="Honours &amp; Achievements" data-zh="荣誉与成就">Honours &amp; Achievements</div>
-          <div class="honour-item" data-en="First in Year 12 Cohort @ LBC" data-zh="Long Bay College 12年级第一名">First in Year 12 Cohort @ LBC</div>
-          <div class="honour-item" data-en="Auckland University Young Scholar" data-zh="奥克兰大学青年学者">Auckland University Young Scholar</div>
-          <div class="honour-item" data-en="Excellence Endorsed — All Subjects" data-zh="所有科目优秀认证">Excellence Endorsed — All Subjects</div>
-          <div class="honour-item" data-en="Duke of Edinburgh Bronze &amp; Silver" data-zh="爱丁堡公爵铜奖及银奖">Duke of Edinburgh Bronze &amp; Silver</div>
+          <div class="honour-title">Honours &amp; Achievements</div>
+          <div class="honour-item">First in Year 12 Cohort @ LBC</div>
+          <div class="honour-item">Auckland University Young Scholar</div>
+          <div class="honour-item">Excellence Endorsed — All Subjects</div>
+          <div class="honour-item">Duke of Edinburgh Bronze &amp; Silver</div>
         </div>
       </div>
     </div>
 
-    <!-- Mitchell -->
-    <div class="tutee-card">
-      <div class="tutee-img" style="background:linear-gradient(135deg,#1e3a2f 0%,#0f2118 100%)">
-        <img src="images/mitchell.jpg" alt="Mitchell Baird" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
-        <div class="img-fallback" style="display:none">👨‍🔬</div>
-        <div class="tutee-rank"><span class="tutee-rank-badge" data-en="Top 3% Student" data-zh="前3%学生">Top 3% Student</span></div>
-      </div>
-      <div class="tutee-body">
-        <div class="tutee-name">Mitchell Baird</div>
-        <div class="tutee-school" data-en="at Long Bay College" data-zh="就读于Long Bay College">at Long Bay College</div>
-        <div class="tutee-subjects" data-en="Specialises in <strong>DTS</strong>, <strong>Physics</strong>, and <strong>Mathematics</strong>" data-zh="专攻<strong>数字技术</strong>、<strong>物理</strong>和<strong>数学</strong>">Specialises in <strong>DTS</strong>, <strong>Physics</strong>, and <strong>Mathematics</strong></div>
-        <div class="tutee-honours">
-          <div class="honour-title" data-en="Honours &amp; Achievements" data-zh="荣誉与成就">Honours &amp; Achievements</div>
-          <div class="honour-item" data-en="Extension Maths &amp; English" data-zh="数学及英语拓展课程">Extension Maths &amp; English</div>
-          <div class="honour-item" data-en="NCEA Excellence Endorsed — All Subjects" data-zh="NCEA所有科目优秀认证">NCEA Excellence Endorsed — All Subjects</div>
-          <div class="honour-item" data-en="Previous Intermediate Teaching Experience" data-zh="具有中学初级阶段教学经验">Previous Intermediate Teaching Experience</div>
-          <div class="honour-item" data-en="Aspiring Scholars Alumni" data-zh="卓越学者项目校友">Aspiring Scholars Alumni</div>
-        </div>
-      </div>
-    </div>
 
     <!-- Matthew -->
     <div class="tutee-card">
       <div class="tutee-img" style="background:linear-gradient(135deg,#3a1a1a 0%,#200d0d 100%)">
         <img src="images/matthew.jpg" alt="Matthew Fitness" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
         <div class="img-fallback" style="display:none">👨‍📖</div>
-        <div class="tutee-rank"><span class="tutee-rank-badge" data-en="Top 1% Student" data-zh="前1%学生">Top 1% Student</span></div>
+        <div class="tutee-rank"><span class="tutee-rank-badge">Top 1% Student</span></div>
       </div>
       <div class="tutee-body">
         <div class="tutee-name">Matthew Fitness</div>
-        <div class="tutee-school" data-en="at Long Bay College" data-zh="就读于Long Bay College">at Long Bay College</div>
-        <div class="tutee-subjects" data-en="Specialises in <strong>Maths</strong>, <strong>Physics</strong>, and <strong>Economics</strong>" data-zh="专攻<strong>数学</strong>、<strong>物理</strong>和<strong>经济学</strong>">Specialises in <strong>Maths</strong>, <strong>Physics</strong>, and <strong>Economics</strong></div>
+        <div class="tutee-school">at Long Bay College</div>
+        <div class="tutee-subjects">Specialises in <strong>Maths</strong>, <strong>Physics</strong>, and <strong>Economics</strong></div>
         <div class="tutee-honours">
-          <div class="honour-title" data-en="Honours &amp; Achievements" data-zh="荣誉与成就">Honours &amp; Achievements</div>
-          <div class="honour-item" data-en="Former Head Boy @ Northcross Intermediate" data-zh="前Northcross Intermediate学生会长">Former Head Boy @ Northcross Intermediate</div>
-          <div class="honour-item" data-en="Principal's Award Recipient 2024" data-zh="2024年校长奖得主">Principal's Award Recipient 2024</div>
-          <div class="honour-item" data-en="Extension Maths &amp; Physics" data-zh="数学及物理拓展课程">Extension Maths &amp; Physics</div>
-          <div class="honour-item" data-en="Auckland University Young Scholar" data-zh="奥克兰大学青年学者">Auckland University Young Scholar</div>
+          <div class="honour-title">Honours &amp; Achievements</div>
+          <div class="honour-item">Former Head Boy @ Northcross Intermediate</div>
+          <div class="honour-item">Principal's Award Recipient 2024</div>
+          <div class="honour-item">Extension Maths &amp; Physics</div>
+          <div class="honour-item">Auckland University Young Scholar</div>
         </div>
       </div>
-    </div>
 
   </div>
 </div>
@@ -549,20 +567,20 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
 <section id="locations">
 <div class="locations-inner" style="padding:80px 0">
   <div style="padding:0 32px;margin-bottom:40px">
-    <div class="section-label" data-en="Meeting Locations" data-zh="授课地点">Meeting Locations</div>
-    <h2 class="section-title" style="color:#fff" data-en="Where we meet." data-zh="我们在哪里上课。">Where we meet.</h2>
-    <p class="section-sub" style="color:rgba(255,255,255,0.45)" data-en="Three library venues across the North Shore, all easily accessible. Or we come to you." data-zh="北岸三处图书馆授课地点，交通便利。或由我们上门服务。">Three library venues across the North Shore, all easily accessible. Or we come to you.</p>
+    <div class="section-label">Meeting Locations</div>
+    <h2 class="section-title" style="color:#fff">Where we meet.</h2>
+    <p class="section-sub" style="color:rgba(255,255,255,0.45)">Three library venues across the North Shore, all easily accessible. Or we come to you.</p>
   </div>
   <div class="loc-grid" style="padding:0 32px">
-    <div class="loc-card"><div class="loc-map"><svg viewBox="0 0 220 155" xmlns="http://www.w3.org/2000/svg"><rect width="220" height="155" fill="#1a2f5e"/><rect x="0" y="67" width="220" height="8" class="map-road-h"/><rect x="94" y="0" width="8" height="155" class="map-road-v"/><rect x="10" y="10" width="70" height="50" class="map-block" rx="2"/><rect x="110" y="10" width="55" height="50" class="map-block" rx="2"/><rect x="172" y="10" width="38" height="50" class="map-block" rx="2"/><rect x="10" y="83" width="50" height="62" class="map-block" rx="2"/><rect x="110" y="83" width="100" height="62" class="map-block" rx="2"/><line x1="0" y1="30" x2="220" y2="30" stroke="rgba(255,255,255,0.04)" stroke-width="1"/><line x1="0" y1="110" x2="220" y2="110" stroke="rgba(255,255,255,0.04)" stroke-width="1"/><line x1="50" y1="0" x2="50" y2="155" stroke="rgba(255,255,255,0.04)" stroke-width="1"/><line x1="160" y1="0" x2="160" y2="155" stroke="rgba(255,255,255,0.04)" stroke-width="1"/><circle cx="98" cy="71" r="12" class="map-pin-ring"/><circle cx="98" cy="71" r="4.5" class="map-pin"/><text x="110" y="143" text-anchor="middle" class="map-label">Massey University Area</text></svg></div><div class="loc-info"><div class="loc-name" data-en="Massey Library" data-zh="梅西图书馆">Massey Library</div><div class="loc-addr">Silverfield, Albany, Auckland 0632</div><span class="loc-tag" data-en="$50/hr · In Person" data-zh="每小时$50 · 面授">$50/hr · In Person</span></div></div>
-    <div class="loc-card"><div class="loc-map"><svg viewBox="0 0 220 155" xmlns="http://www.w3.org/2000/svg"><rect width="220" height="155" fill="#1a2f5e"/><path d="M0 80 Q55 62 110 76 Q165 90 220 72" stroke="rgba(100,180,255,0.18)" stroke-width="4" fill="none"/><rect x="0" y="54" width="220" height="8" class="map-road-h"/><rect x="70" y="0" width="8" height="155" class="map-road-v"/><rect x="10" y="10" width="50" height="37" class="map-block" rx="2"/><rect x="85" y="10" width="78" height="37" class="map-block" rx="2"/><rect x="170" y="10" width="40" height="37" class="map-block" rx="2"/><rect x="10" y="70" width="50" height="75" class="map-block" rx="2"/><rect x="85" y="70" width="125" height="75" class="map-block" rx="2"/><line x1="0" y1="30" x2="220" y2="30" stroke="rgba(255,255,255,0.04)" stroke-width="1"/><line x1="140" y1="0" x2="140" y2="155" stroke="rgba(255,255,255,0.04)" stroke-width="1"/><circle cx="74" cy="58" r="12" class="map-pin-ring"/><circle cx="74" cy="58" r="4.5" class="map-pin"/><text x="110" y="143" text-anchor="middle" class="map-label">Orewa Town Centre</text></svg></div><div class="loc-info"><div class="loc-name" data-en="Orewa Library" data-zh="奥雷瓦图书馆">Orewa Library</div><div class="loc-addr">1 Centreway Rd, Orewa, Auckland 0931</div><span class="loc-tag" data-en="$50/hr · In Person" data-zh="每小时$50 · 面授">$50/hr · In Person</span></div></div>
-    <div class="loc-card"><div class="loc-map"><svg viewBox="0 0 220 155" xmlns="http://www.w3.org/2000/svg"><rect width="220" height="155" fill="#1a2f5e"/><rect x="0" y="70" width="220" height="8" class="map-road-h"/><rect x="0" y="44" width="220" height="5" style="fill:rgba(255,255,255,0.05)"/><rect x="104" y="0" width="8" height="155" class="map-road-v"/><rect x="48" y="0" width="5" height="155" style="fill:rgba(255,255,255,0.05)"/><rect x="10" y="10" width="30" height="27" class="map-block" rx="2"/><rect x="55" y="10" width="40" height="27" class="map-block" rx="2"/><rect x="118" y="10" width="82" height="27" class="map-block" rx="2"/><rect x="10" y="83" width="82" height="62" class="map-block" rx="2"/><rect x="118" y="83" width="82" height="62" class="map-block" rx="2"/><line x1="0" y1="30" x2="220" y2="30" stroke="rgba(255,255,255,0.04)" stroke-width="1"/><line x1="0" y1="115" x2="220" y2="115" stroke="rgba(255,255,255,0.04)" stroke-width="1"/><circle cx="112" cy="57" r="12" class="map-pin-ring"/><circle cx="112" cy="57" r="4.5" class="map-pin"/><text x="110" y="143" text-anchor="middle" class="map-label">East Coast Bays Area</text></svg></div><div class="loc-info"><div class="loc-name" data-en="East Coast Bays Library" data-zh="东海岸湾图书馆">East Coast Bays Library</div><div class="loc-addr">Bute Rd, Browns Bay, Auckland 0630</div><span class="loc-tag" data-en="$50/hr · In Person" data-zh="每小时$50 · 面授">$50/hr · In Person</span></div></div>
+    <div class="loc-card"><div class="loc-map"><iframe loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=-36.7330,174.7052&z=17&output=embed"></iframe></div><div class="loc-info"><div class="loc-name">Massey Library</div><div class="loc-addr">Silverfield, Albany, Auckland 0632</div><span class="loc-tag">$50/hr · In Person</span></div></div>
+    <div class="loc-card"><div class="loc-map"><iframe loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=-36.5869,174.6944&z=17&output=embed"></iframe></div><div class="loc-info"><div class="loc-name">Orewa Library</div><div class="loc-addr">1 Centreway Rd, Orewa, Auckland 0931</div><span class="loc-tag">$50/hr · In Person</span></div></div>
+    <div class="loc-card"><div class="loc-map"><iframe loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade" src="https://maps.google.com/maps?q=-36.714836,174.746817&z=17&output=embed"></iframe></div><div class="loc-info"><div class="loc-name">East Coast Bays Library</div><div class="loc-addr">Bute Rd, Browns Bay, Auckland 0630</div><span class="loc-tag">$50/hr · In Person</span></div></div>
   </div>
   <div class="home-card" style="margin:24px 32px 0">
     <div class="home-icon">🏠</div>
     <div class="home-info">
-      <h3 data-en="We Come to You — $60/hr" data-zh="我们上门服务 — 每小时$60">We Come to You — $60/hr</h3>
-      <p data-en="Prefer the comfort of your own home? We travel to tutees across the North Shore. Simply specify your address when booking and we'll confirm availability for your area." data-zh="希望在家中学习？我们可以前往北岸各地。预约时请提供您的地址，我们将确认是否能够前往您的区域。">Prefer the comfort of your own home? We travel to tutees across the North Shore. Simply specify your address when booking and we'll confirm availability for your area.</p>
+      <h3>We Come to You — $60/hr</h3>
+      <p>Prefer the comfort of your own home? We travel to tutees across the North Shore. Simply specify your address when booking and we'll confirm availability for your area.</p>
     </div>
   </div>
 </div>
@@ -576,34 +594,89 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
   </div>
   <ul class="footer-links">
     <li><a href="mailto:info@shoreacademy.nz">info@shoreacademy.nz</a></li>
-    <li><a href="#features" data-en="Method" data-zh="教学理念">Method</a></li>
-    <li><a href="#pricing" data-en="Pricing" data-zh="价格">Pricing</a></li>
-    <li><a href="#locations" data-en="Locations" data-zh="地点">Locations</a></li>
+    <li><a href="#features">Method</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#locations">Locations</a></li>
   </ul>
 </footer>
 
-
 <script>
 // ── CONFIG ────────────────────────────────────────────────────────────────────
-const SHEET_URL  = 'https://script.google.com/macros/s/AKfycbwzAfD09aHN6zXtktWPSIgYO6oRwYEBPmLv1DoISyJjc5d7Totr39FtuU15_Gfb_AoB4A/exec';
-
-// ── EMAILJS ───────────────────────────────────────────────────────────────────
+const SHEET_URL    = 'https://script.google.com/macros/s/AKfycbwzAfD09aHN6zXtktWPSIgYO6oRwYEBPmLv1DoISyJjc5d7Totr39FtuU15_Gfb_AoB4A/exec';
 const EJS_SERVICE  = 'service_dhulg6q';
 const EJS_TEMPLATE = 'template_n1ltus8';
-const EJS_KEY      = 'xzRXhkf4KRwfzZG_x'; // ← paste your Public Key here
+const EJS_KEY      = 'xzRXhkf4KRwfzZG_x'; // ← paste your EmailJS Public Key here
 
 emailjs.init(EJS_KEY);
 
-// ── CALENDAR STATE ────────────────────────────────────────────────────────────
+// ── GALLERY ───────────────────────────────────────────────────────────────────
+const GALLERY_PHOTOS = [
+  {src:'images/gallery-1.jpg',  label:'Session in progress'},
+  {src:'images/gallery-2.jpg',  label:'Library study'},
+  {src:'images/gallery-3.jpg',  label:'Whiteboard work'},
+  {src:'images/gallery-4.jpg',  label:'One-on-one coaching'},
+  {src:'images/gallery-5.jpg',  label:'Problem solving'},
+  {src:'images/gallery-6.jpg',  label:'East Coast Bays Library'},
+  {src:'images/gallery-7.jpg',  label:'After school session'},
+  {src:'images/gallery-8.jpg',  label:'Orewa Library'},
+  {src:'images/gallery-9.jpg',  label:'Year 10 Chemistry'},
+  {src:'images/gallery-10.jpg', label:'Online session'},
+  {src:'images/gallery-11.jpg', label:'SAT prep'},
+  {src:'images/gallery-12.jpg', label:'Massey Library'},
+  {src:'images/gallery-13.jpg', label:'Maths breakthrough'},
+  {src:'images/gallery-14.jpg', label:'Evening study'},
+  {src:'images/gallery-15.jpg', label:'Group revision'},
+  {src:'images/gallery-16.jpg', label:"D'Angelo tutoring"},
+  {src:'images/gallery-17.jpg', label:'Matthew tutoring'},
+  {src:'images/gallery-18.jpg', label:'Notes & planning'},
+  {src:'images/gallery-19.jpg', label:'Progress review'},
+  {src:'images/gallery-20.jpg', label:'North Shore community'},
+];
+
+function buildGalleryRow(photos, cssClass) {
+  const all = [...photos, ...photos];
+  const row = document.createElement('div');
+  row.className = 'gallery-row ' + cssClass;
+  all.forEach(p => {
+    const item = document.createElement('div');
+    item.className = 'gallery-item';
+    item.innerHTML = `
+      <img src="${p.src}" alt="${p.label}"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="gallery-placeholder" style="display:none">
+        <div class="gallery-placeholder-icon">📷</div>
+        <div class="gallery-placeholder-lbl">${p.label}</div>
+      </div>`;
+    row.appendChild(item);
+  });
+  return row;
+}
+
+function openGallery() {
+  const body = document.getElementById('galleryBody');
+  if (!body.children.length) {
+    body.appendChild(buildGalleryRow(GALLERY_PHOTOS.slice(0,7),  'row-right'));
+    body.appendChild(buildGalleryRow(GALLERY_PHOTOS.slice(7,14), 'row-left'));
+    body.appendChild(buildGalleryRow(GALLERY_PHOTOS.slice(14),   'row-right-slow'));
+  }
+  document.getElementById('galleryModal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeGallery() {
+  document.getElementById('galleryModal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ── CALENDAR ──────────────────────────────────────────────────────────────────
 const bookedSlots  = new Set();
 const pendingSlots = new Set();
 const DAY_NAMES    = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 
 function slotKey(day, hour){ return `${day}|${hour}`; }
 
-// ── LOAD SLOTS FROM SHEET ─────────────────────────────────────────────────────
 async function loadBookedSlots(){
-  try{
+  try {
     const res  = await fetch(SHEET_URL + '?action=getSlots', {method:'GET', cache:'no-store'});
     if(!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
@@ -613,7 +686,6 @@ async function loadBookedSlots(){
   buildAllCals();
 }
 
-// ── BUILD CALENDARS ───────────────────────────────────────────────────────────
 function buildCal(containerId, days, hours){
   const wrap = document.getElementById(containerId);
   let html = '<div class="cal-header"><div class="cal-time-header"></div><div class="cal-day-cols">';
@@ -624,14 +696,14 @@ function buildCal(containerId, days, hours){
     html += `<div class="cal-time-label">${lbl}</div>`;
   });
   html += '</div><div class="cal-day-grid">';
-  days.forEach((d) => {
+  days.forEach(d => {
     html += '<div class="cal-col">';
-    hours.forEach((h) => {
+    hours.forEach(h => {
       const key  = slotKey(DAY_NAMES[d], h);
       const lbl  = h===12?'12pm':h===0?'12am':h<12?`${h}am`:`${h-12}pm`;
       const info = `${DAY_NAMES[d]} at ${lbl}`;
       if(bookedSlots.has(key)){
-        html += `<div class="cal-slot booked"  data-key="${key}"></div>`;
+        html += `<div class="cal-slot booked" data-key="${key}"></div>`;
       } else if(pendingSlots.has(key)){
         html += `<div class="cal-slot pending" data-key="${key}"></div>`;
       } else {
@@ -653,11 +725,10 @@ function buildAllCals(){
 function markSlot(key, cls){
   document.querySelectorAll(`.cal-slot[data-key="${key}"]`).forEach(el => {
     el.className = 'cal-slot ' + cls;
-    el.onclick = null;
+    el.onclick   = null;
   });
 }
 
-// ── TAB SWITCHER ──────────────────────────────────────────────────────────────
 function showTab(id, btn){
   document.getElementById('tab-weekday').style.display = id==='weekday' ? '' : 'none';
   document.getElementById('tab-weekend').style.display = id==='weekend' ? '' : 'none';
@@ -687,10 +758,9 @@ document.getElementById('bookingModal').addEventListener('click', function(e){ i
 
 function handleFormatChange(){
   const v = document.getElementById('bookFormat').value;
-  document.getElementById('locationWrap').classList.toggle('visible', v === 'Designated Meeting Place');
+  document.getElementById('locationWrap').classList.toggle('visible', v==='Designated Meeting Place');
 }
 
-// ── SUBMIT BOOKING ────────────────────────────────────────────────────────────
 async function submitBooking(){
   const name    = document.getElementById('bookName').value.trim();
   const email   = document.getElementById('bookEmail').value.trim();
@@ -701,7 +771,7 @@ async function submitBooking(){
   const loc     = document.getElementById('bookLocation').value;
   const needLoc = format === 'Designated Meeting Place';
 
-  if(!name || !email || !phone || !year || !subject || !format || (needLoc && !loc)){
+  if(!name||!email||!phone||!year||!subject||!format||(needLoc&&!loc)){
     const e = document.getElementById('modalError');
     e.textContent = 'Please fill in all fields.';
     e.style.display = 'block';
@@ -711,43 +781,38 @@ async function submitBooking(){
   const btn = document.getElementById('modalSubmitBtn');
   btn.disabled = true; btn.textContent = 'Submitting…';
 
-  const payload = {
-    action   : 'book',
-    slotKey  : selectedSlotKey,
+  const firstName  = name.trim().split(' ')[0];
+  const sessionLoc = needLoc ? loc : (format==='Online' ? 'Online (Zoom / Google Meet)' : "At tutee's home");
+  const payload    = {
+    action:'book', slotKey:selectedSlotKey,
     name, email, phone, year, subject, format,
-    location : needLoc ? loc : '—',
-    slot     : selectedSlotInfo,
+    location: needLoc ? loc : '—',
+    slot: selectedSlotInfo,
     timestamp: new Date().toISOString()
   };
 
-  // Split name into first / rest for the email greeting
-  const nameParts   = name.trim().split(' ');
-  const firstName   = nameParts[0];
-  const sessionLoc  = needLoc ? loc : (format === 'Online' ? 'Online (Zoom / Google Meet)' : 'At tutee\'s home');
-
   try {
-    // 1️⃣  Write to Google Sheet
-    await fetch(SHEET_URL, {
-      method : 'POST',
-      mode   : 'cors',
-      headers: { 'Content-Type': 'text/plain' },
-      body   : JSON.stringify(payload)
-    });
+    // 1. Write to Google Sheet (fire-and-forget)
+    fetch(SHEET_URL, {
+      method:'POST', mode:'no-cors',
+      headers:{'Content-Type':'text/plain'},
+      body: JSON.stringify(payload)
+    }).catch(e => console.warn('Sheet write failed:', e));
 
-    // 2️⃣  Send welcome email immediately via EmailJS
+    // 2. Send welcome email via EmailJS
     await emailjs.send(EJS_SERVICE, EJS_TEMPLATE, {
-      to_email      : email,
+      email,
       parent_name   : firstName,
       student_name  : name,
       slot          : selectedSlotInfo,
       subject_taken : subject,
       session_format: format,
       location      : sessionLoc,
-      phone         : phone,
+      phone,
       year_level    : year
     });
 
-    // 3️⃣  Mark slot green (pending) in the calendar
+    // 3. Mark slot green (pending)
     pendingSlots.add(selectedSlotKey);
     markSlot(selectedSlotKey, 'pending');
 
@@ -767,14 +832,13 @@ async function submitBooking(){
 // ── SCROLL FADE ───────────────────────────────────────────────────────────────
 const obs = new IntersectionObserver(entries => {
   entries.forEach(e => { if(e.isIntersecting){ e.target.style.opacity='1'; e.target.style.transform='translateY(0)'; } });
-}, {threshold:0.1});
+},{threshold:0.1});
 document.querySelectorAll('.feat-card,.price-card,.tutee-card,.loc-card,.review-card').forEach(el => {
   el.style.opacity='0'; el.style.transform='translateY(16px)';
   el.style.transition='opacity .5s ease,transform .5s ease';
   obs.observe(el);
 });
 
-// ── BOOT ──────────────────────────────────────────────────────────────────────
 loadBookedSlots();
 </script>
 </body>
