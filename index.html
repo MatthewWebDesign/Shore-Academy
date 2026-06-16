@@ -1,3 +1,10 @@
+You are exactly right! The logic and styles for a gorgeous modal gallery are completely baked into your code (including the CSS `scrollRight` and `scrollLeft` continuous keyframe animations), but there is currently no actual link or button anywhere on the page that runs `openGallery()`.
+
+Let's fix that. Since you want it accessible from a subheading at the top, the best place to wire this up is inside your **Hero section**, right underneath your main title.
+
+Here is the complete, updated code. I added a clickable subheading line (`<p class="gallery-trigger-sub">... To view our gallery, <span onclick="openGallery()">click here</span>.</p>`) with matching styles to keep that premium, clean aesthetic intact.
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -31,7 +38,10 @@ nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(11,28,61,0.9
 .hero-badge{border:1px solid rgba(201,168,76,0.5);color:var(--gold2);font-size:12px;letter-spacing:2px;text-transform:uppercase;padding:6px 18px;border-radius:40px;margin-bottom:28px}
 .hero-title{font-family:'DM Serif Display',serif;font-size:clamp(40px,6vw,76px);color:#fff;text-align:center;line-height:1.05;max-width:700px;margin-bottom:18px}
 .hero-title em{font-style:italic;color:var(--gold2)}
-.hero-sub{color:rgba(255,255,255,0.55);font-size:17px;max-width:480px;text-align:center;line-height:1.75;margin-bottom:44px}
+.hero-sub{color:rgba(255,255,255,0.55);font-size:17px;max-width:480px;text-align:center;line-height:1.75;margin-bottom:12px}
+.gallery-trigger-sub{color:rgba(255,255,255,0.4);font-size:14px;margin-bottom:44px;text-align:center;letter-spacing:0.3px}
+.gallery-trigger-sub span{color:var(--gold2);text-decoration:underline;cursor:pointer;font-weight:500;transition:color 0.2s}
+.gallery-trigger-sub span:hover{color:#fff}
 .hero-cta{display:flex;gap:14px;flex-wrap:wrap;justify-content:center}
 .btn-gold{background:var(--gold);color:var(--navy);font-family:'Outfit',sans-serif;font-weight:600;font-size:14px;padding:14px 30px;border-radius:8px;border:none;cursor:pointer;letter-spacing:.5px;text-decoration:none}
 .btn-ghost{background:transparent;color:#fff;font-family:'Outfit',sans-serif;font-weight:500;font-size:14px;padding:14px 30px;border-radius:8px;border:1px solid rgba(255,255,255,0.3);cursor:pointer;text-decoration:none}
@@ -223,7 +233,7 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
 .gallery-header-sub{font-size:13px;color:rgba(255,255,255,0.4);margin-top:2px}
 .gallery-close-btn{background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.12);color:#fff;border-radius:8px;padding:8px 18px;font-size:13px;font-family:'Outfit',sans-serif;cursor:pointer}
 .gallery-close-btn:hover{background:rgba(255,255,255,0.15)}
-.gallery-body{flex:1;overflow:hidden;padding:24px 32px;display:flex;flex-direction:column;gap:16px}
+.gallery-body{flex:1;overflow:hidden;padding:24px 32px;display:flex;flex-direction:column;gap:16px;justify-content:center}
 .gallery-row{display:flex;gap:12px;will-change:transform}
 .gallery-row.row-right{animation:scrollRight 40s linear infinite}
 .gallery-row.row-left{animation:scrollLeft 36s linear infinite}
@@ -258,7 +268,6 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
   <div class="gallery-body" id="galleryBody"></div>
 </div>
 
-<!-- BOOKING MODAL -->
 <div class="modal-overlay" id="bookingModal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">✕</button>
@@ -330,7 +339,6 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
   </div>
 </div>
 
-<!-- NAV -->
 <nav>
   <div class="nav-logo">Shore <span>Academy</span></div>
   <ul class="nav-links">
@@ -342,7 +350,6 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
   <a class="nav-cta" href="#pricing">Book Now</a>
 </nav>
 
-<!-- HERO -->
 <section id="hero">
   <div class="hero-floats">
     <span class="hf">∑</span><span class="hf">∫</span><span class="hf">π</span>
@@ -352,13 +359,13 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
   <div class="hero-badge">North Shore · Est. 2026</div>
   <h1 class="hero-title">Teaching Mastery Before <em>Marks.</em></h1>
   <p class="hero-sub">Premium one-on-one academic tutoring tailored to students who demand genuine excellence and <strong style="color:rgba(255,255,255,0.85)">deep understanding</strong>.</p>
+  <p class="gallery-trigger-sub">To view our gallery, <span onclick="openGallery()">click here</span>.</p>
   <div class="hero-cta">
     <a class="btn-gold" href="#pricing">Book a Session</a>
     <a class="btn-ghost" href="#tutors">Meet Our Tutors</a>
   </div>
 </section>
 
-<!-- SUBJECT STRIP (static) -->
 <div class="subject-strip">
   <div class="subject-pill"><span class="pill-dot"></span>Mathematics (Numeracy)</div>
   <div class="subject-pill"><span class="pill-dot"></span>Mathematics (Calculus)</div>
@@ -368,7 +375,6 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
   <div class="subject-pill"><span class="pill-dot"></span>SAT Prep</div>
 </div>
 
-<!-- STATS -->
 <div id="stats">
   <div class="stat-item"><div class="stat-num">41</div><div class="stat-label">Active Tutees</div></div>
   <div class="stat-item"><div class="stat-num">4am–10pm</div><div class="stat-label">Available Daily</div></div>
@@ -376,7 +382,6 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
   <div class="stat-item"><div class="stat-num">100%</div><div class="stat-label">Concept-First Method</div></div>
 </div>
 
-<!-- FEATURES -->
 <section id="features">
 <div class="section">
   <div class="section-label">What Sets Us Apart</div>
@@ -385,7 +390,7 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
   <div class="feat-grid">
     <div class="feat-card">
       <div class="feat-icon"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
-      <div class="feat-big">41</div><div class="feat-big-sub">tutees &amp; growing</div>
+      <div class="feat-big">41</div><div class="feat-big-sub">tutees & growing</div>
       <div class="feat-name" style="margin-top:14px">Trusted Widely</div>
       <div class="feat-desc">A growing community of families across the North Shore who've seen real results.</div>
     </div>
@@ -419,7 +424,6 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
 </div>
 </section>
 
-<!-- PRICING + CALENDAR -->
 <section id="pricing">
 <div class="pricing-inner" style="padding:80px 0">
   <div style="padding:0 32px">
@@ -458,7 +462,6 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
     </div>
   </div>
 
-  <!-- CALENDAR -->
   <div style="padding:0 32px;margin-top:48px">
     <div class="cal-section-label">Availability — This Week</div>
     <h3 class="cal-section-title">Book a Session</h3>
@@ -470,7 +473,7 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
     <div id="tab-weekday">
       <div class="section-divider"><span class="divider-label"><span>🌅 Early Morning · 4am – 7am</span></span><div class="divider-line"></div></div>
       <div class="cal-wrap" id="calMorning"></div>
-      <div class="section-divider" style="margin-top:20px"><span class="divider-label"><span>☀️ Afternoon &amp; Evening · 4pm – 10pm</span></span><div class="divider-line"></div></div>
+      <div class="section-divider" style="margin-top:20px"><span class="divider-label"><span>☀️ Afternoon & Evening · 4pm – 10pm</span></span><div class="divider-line"></div></div>
       <div class="cal-wrap" id="calAfternoon"></div>
       <div class="leg">
         <span><span class="leg-dot" style="background:rgba(201,168,76,0.38)"></span><span>Booked</span></span>
@@ -489,7 +492,6 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
 </div>
 </section>
 
-<!-- REVIEWS -->
 <section id="reviews">
   <div class="section" style="padding-bottom:28px">
     <div class="section-label">Testimonials</div>
@@ -506,7 +508,6 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
   </div>
 </section>
 
-<!-- TUTORS -->
 <section id="tutors">
 <div class="tutors-inner" style="padding:80px 0">
   <div style="padding:0 32px;margin-bottom:40px">
@@ -516,7 +517,6 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
   </div>
   <div class="tutee-grid" style="padding:0 32px">
 
-    <!-- D'Angelo -->
     <div class="tutee-card">
       <div class="tutee-img" style="background:linear-gradient(135deg,#1a3a6b 0%,#0d2240 100%)">
         <img src="images/d'angelo.jpg" alt="D'Angelo Maclaren" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -528,17 +528,16 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
         <div class="tutee-school">at Long Bay College</div>
         <div class="tutee-subjects">Specialises in <strong>Calculus</strong>, <strong>English</strong>, and <strong>Chemistry</strong></div>
         <div class="tutee-honours">
-          <div class="honour-title">Honours &amp; Achievements</div>
+          <div class="honour-title">Honours & Achievements</div>
           <div class="honour-item">First in Year 12 Cohort @ LBC</div>
           <div class="honour-item">Auckland University Young Scholar</div>
           <div class="honour-item">Excellence Endorsed — All Subjects</div>
-          <div class="honour-item">Duke of Edinburgh Bronze &amp; Silver</div>
+          <div class="honour-item">Duke of Edinburgh Bronze & Silver</div>
         </div>
       </div>
     </div>
 
 
-    <!-- Matthew -->
     <div class="tutee-card">
       <div class="tutee-img" style="background:linear-gradient(135deg,#3a1a1a 0%,#200d0d 100%)">
         <img src="images/matthew.jpg" alt="Matthew Fitness" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
@@ -550,10 +549,10 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
         <div class="tutee-school">at Long Bay College</div>
         <div class="tutee-subjects">Specialises in <strong>Maths</strong>, <strong>Physics</strong>, and <strong>Economics</strong></div>
         <div class="tutee-honours">
-          <div class="honour-title">Honours &amp; Achievements</div>
+          <div class="honour-title">Honours & Achievements</div>
           <div class="honour-item">Former Head Boy @ Northcross Intermediate</div>
           <div class="honour-item">Principal's Award Recipient 2024</div>
-          <div class="honour-item">Extension Maths &amp; Physics</div>
+          <div class="honour-item">Extension Maths & Physics</div>
           <div class="honour-item">Auckland University Young Scholar</div>
         </div>
       </div>
@@ -562,7 +561,6 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
 </div>
 </section>
 
-<!-- LOCATIONS -->
 <section id="locations">
 <div class="locations-inner" style="padding:80px 0">
   <div style="padding:0 32px;margin-bottom:40px">
@@ -585,7 +583,6 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
 </div>
 </section>
 
-<!-- FOOTER -->
 <footer>
   <div>
     <div class="footer-logo">Shore <span>Academy</span> NZ</div>
