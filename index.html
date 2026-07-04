@@ -1,3 +1,10 @@
+You are exactly right! The logic and styles for a gorgeous modal gallery are completely baked into your code (including the CSS `scrollRight` and `scrollLeft` continuous keyframe animations), but there is currently no actual link or button anywhere on the page that runs `openGallery()`.
+
+Let's fix that. Since you want it accessible from a subheading at the top, the best place to wire this up is inside your **Hero section**, right underneath your main title.
+
+Here is the complete, updated code. I added a clickable subheading line (`<p class="gallery-trigger-sub">... To view our gallery, <span onclick="openGallery()">click here</span>.</p>`) with matching styles to keep that premium, clean aesthetic intact.
+
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -551,6 +558,14 @@ footer{background:var(--navy);padding:36px 40px;display:flex;align-items:center;
       </div>
 
   </div>
+
+    <div class="tutee-card" style="display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:40px 28px;border:1px dashed var(--gold);background:linear-gradient(135deg,rgba(201,168,76,0.06),var(--white))">
+      <div style="width:56px;height:56px;border-radius:50%;background:rgba(201,168,76,0.12);display:flex;align-items:center;justify-content:center;margin-bottom:20px">
+        <svg viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="#C9A84C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="7" r="4"/><path d="M1 21v-2a4 4 0 014-4h2a4 4 0 014 4v2"/><path d="M17 8v6M23 11h-6"/></svg>
+      </div>
+      <div class="tutee-name" style="margin-bottom:10px">More Tutors Coming Soon</div>
+      <div class="tutee-subjects" style="margin-bottom:0">We're growing our North Shore team to cover more subjects and availability. Check back soon to meet our newest tutors.</div>
+    </div>
 </div>
 </section>
 
